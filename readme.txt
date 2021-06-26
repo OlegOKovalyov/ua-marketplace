@@ -3,7 +3,7 @@ Contributors: bandido, olegkovalyov
 Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
 Tested up to: 5.7
-Requires PHP: 7.1
+Requires PHP: 7.0
 Stable tag: 1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,12 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.1.2 =
+* [new] встановлений інструмент аналітики freemius
+
+= 1.1.1 =
+* [new] змінена назва головного файлу плагіну
 
 = 1.1 =
 * [new] додані поля Title та Category ID до швидкого редагування товарів

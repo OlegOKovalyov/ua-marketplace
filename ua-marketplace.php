@@ -1,21 +1,4 @@
 <?php
-/**
- * @link              https://morkva.co.ua/shop-2/woocommerce-rozetka-sync
- * @since             0.0.3
- * @package           MrkvUAMmarketplaces
- *
- * @wordpress-plugin
- * Plugin Name:       UA Marketplaces WooCommerce Plugin
- * Plugin URI:        https://morkva.co.ua/shop-2/woocommerce-rozetka-sync
- * Description:       Забезпечує взаїмодію WooCommerce інетернет-магазину з маркетплейсами Rozetka та PromUA.
- * Version:           1.1.1
- * Author:            MORKVA
- * Author URI:        https://morkva.co.ua
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       mrkv-ua-marketplaces
- * Domain Path:       /languages
- */
 
 // If this file is called directly, abort.
 defined( 'ABSPATH' ) or die();
