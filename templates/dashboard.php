@@ -8,10 +8,10 @@ require_once( 'dashboard-header.php' );
 
         <?php settings_fields( 'mrkv_ua_marketplaces_option_group' ); ?>
         <?php do_settings_sections( 'mrkv_ua_marketplaces' ); ?>
-        <?php submit_button( null, 'primary', 'dashboard_submit', false ); ?>
+        <?php submit_button( null, 'primary', 'mrkvuamp_dashboard_submit', false ); ?>
 
         <?php // Show marketplace panels ?>
-        <?php $activation_options_name = get_option( 'mrkv_ua_marketplaces'); ?>
+        <?php $activation_options_name = ( ! empty( get_option( 'mrkv_ua_marketplaces') ) ) ? get_option( 'mrkv_ua_marketplaces') : array(); ?>
         <?php foreach ( $activation_options_name as $key => $value ): ?>
             <?php if ( $value ) : ?>
                 <div class="form-table mrkv_uamrkpl_panel">

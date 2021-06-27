@@ -11,8 +11,10 @@
          $default_tab = null;
          $tab = isset($_GET['page']) ? $_GET['page'] : $default_tab;
          $option = get_option('mrkv_ua_marketplaces');
-         $rozetka_activated = isset( $option['mrkvuamp_rozetka_activation'] ) ? $option['mrkvuamp_rozetka_activation'] : false;
-         $promua_activated = isset( $option['mrkvuamp_promua_activation'] ) ? $option['mrkvuamp_promua_activation'] : false;
+         if ( ! empty( $option )) {
+             $rozetka_activated = $option['mrkvuamp_rozetka_activation'];
+             $promua_activated = $option['mrkvuamp_promua_activation'];
+         }
      ?>
 
      <?php // Tabs ?>
