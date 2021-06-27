@@ -1,9 +1,11 @@
 if (location.search.indexOf('page=mrkv_ua_marketplaces') !== -1) { // Only Dashboard tab
     jQuery(document).ready(function(){
 
-        // Make PromUa checkbox and 'Зберегти зміни' button disabled
+        // Make PromUa checkbox and 'Зберегти зміни' button disabled when 'Rozetka' checkbox is checked
         jQuery( '#mrkvuamp_promua_activation' ).attr('disabled', 'disabled');
-        jQuery( '#mrkvuamp_dashboard_submit' ).attr('disabled', 'disabled');
+        if ( jQuery( '#mrkvuamp_rozetka_activation' ).prop( "checked" ) ) {
+            jQuery( '#mrkvuamp_dashboard_submit' ).attr('disabled', 'disabled');
+        }
         jQuery( '.promua_activation_class label' ).css('color', 'gray');
 
         // Copy xml content as string to browser Clipboard with 'Скопіювати' button on Dashboard tab
