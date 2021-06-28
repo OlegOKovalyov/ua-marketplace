@@ -8,7 +8,7 @@
  * Plugin Name:       UA Marketplaces WooCommerce Plugin
  * Plugin URI:        https://morkva.co.ua/shop-2/woocommerce-rozetka-sync
  * Description:       Забезпечує взаїмодію WooCommerce інетернет-магазину з маркетплейсами Rozetka та PromUA.
- * Version:           1.1.5
+ * Version:           1.1.6
  * Author:            MORKVA
  * Author URI:        https://morkva.co.ua
  * License:           GPL-2.0+
@@ -19,8 +19,6 @@
 
  // If this file is called directly, abort.
  defined( 'ABSPATH' ) or die();
-
-require_once 'ua-marketplace.php';
 
 if ( ! function_exists( 'mrkv_uamkpl_fs' ) ) {
     // Create a helper function for easy SDK access.
@@ -56,4 +54,35 @@ if ( ! function_exists( 'mrkv_uamkpl_fs' ) ) {
     mrkv_uamkpl_fs();
     // Signal that SDK was initiated.
     do_action( 'mrkv_uamkpl_fs_loaded' );
+}
+
+// If this file is called directly, abort.
+defined( 'ABSPATH' ) or die();
+
+// Require once the Composer Autoload
+if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
+	require_once dirname( __FILE__ ) . '/vendor/autoload.php';
+}
+
+/**
+ * The code that runs during plugin activation
+ */
+function activate_ua_marketplace_plugin() {
+	Inc\Base\Activate::activate();
+}
+register_activation_hook( __FILE__, 'activate_ua_marketplace_plugin' );
+
+/**
+ * The code that runs during plugin deactivation
+ */
+function deactivate_ua_marketplace_plugin() {
+	Inc\Base\Deactivate::deactivate();
+}
+register_deactivation_hook( __FILE__, 'deactivate_ua_marketplace_plugin' );
+
+/**
+ * Initialize all the core classes of the plugin
+ */
+if ( class_exists( 'Inc\\Init' ) ) {
+	Inc\Init::register_services();
 }

@@ -24,9 +24,9 @@ class BaseController
 	public function __construct() {
 		$this->plugin_path = plugin_dir_path( dirname( __FILE__, 2 ) );
 		$this->plugin_url = plugin_dir_url( dirname( __FILE__, 2 ) );
-		$this->plugin = plugin_basename( dirname( __FILE__, 3 ) ) . '/ua-marketplace.php';
-        $this->plugin_name = get_file_data( $this->plugin_path . '/ua-marketplace.php', array( 'name'=>'Plugin Name' ) );
-        $this->plugin_ver = get_file_data( $this->plugin_path . '/ua-marketplace.php', array( 'ver'=>'Version' ) );
+		$this->plugin = plugin_basename( dirname( __FILE__, 3 ) ) . '/morkvawrs-plugin.php';
+        $this->plugin_name = get_file_data( $this->plugin_path . '/morkvawrs-plugin.php', array( 'name'=>'Plugin Name' ) );
+        $this->plugin_ver = get_file_data( $this->plugin_path . '/morkvawrs-plugin.php', array( 'ver'=>'Version' ) );
 
         $this->activations = array(
             'mrkvuamp_rozetka_activation'   => 'Rozetka',
