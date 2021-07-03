@@ -65,8 +65,9 @@ class WCShopController {
 
         // Get collated wc-products
         $args = array(
+            'limit' => -1,
             'status' => array( 'publish' ),
-            'category' => $collation_cats_slugs,
+            'category' => $collation_cats_slugs
         );
         $products = \wc_get_products( $args );
 

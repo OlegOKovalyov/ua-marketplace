@@ -10,7 +10,7 @@ $xml_fileurl = '/uploads/mrkvuamprozetka.xml';
 
 ?>
 
-<div class="mrkvuamp_wrap">
+<div class="wrap">
 
     <h2><?php echo $this->plugin_name['name']; ?></h2>
     <?php settings_errors(); ?>

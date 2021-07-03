@@ -178,33 +178,17 @@ class WCShopOffer extends WCShopController {
         }
         // Get all product categories
         $product_category_ids = $this->_product->get_category_ids();
-        $id = $this->_product->get_id();
 
         // Get wc-categories and marketplace-categories collation array
         $collation_option_ids = get_option( 'mrkv_uamrkpl_collation_option' );
         foreach ( $collation_option_ids as $key => $value ) {
-
             // Get first wc-category id
             $wc_cat_id = substr( $key , strpos( $key, 'mrkv-uamp-' ) + strlen( 'mrkv-uamp-' ) );
-            if ( $value ) { // Is set marketplace-category?
-                if ( \in_array( $wc_cat_id, $product_category_ids ) ) {
-
-                    foreach ( $this->slug_activations as $slug  ) {
-                        // Category id from '{Marketplace} ID Category' custom field
-                        $cat_id = get_post_meta( $id , "mrkvuamp_{$slug}_cat_id", true);
-                        if ( isset( $cat_id ) && ! empty( $cat_id ) )
-                        {
-                            $value = $cat_id;
-                        }
-                    }
-
-                    return $value;
-                } else {
-                    continue;
-                }
+            // Is set marketplace-category?
+            if ( ! empty( $value ) && \in_array( $wc_cat_id, $product_category_ids ) ) {
+                return $value;
             }
-            return false;
-        } // foreach $collation_option_ids
+        }
     }
 
     // Get currency value (UAH, USD, EUR, RUR) attribute for <currencyId> xml-tag
