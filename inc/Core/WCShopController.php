@@ -102,19 +102,16 @@ class WCShopController {
 
     public function get_marketplace_collation_category_ids()
     {
-
         if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
             return;
         }
         $category_collation_ids = get_option( 'mrkv_uamrkpl_collation_option' );
-
         foreach ( $category_collation_ids as $key => $value ) {
-            if ( strpos( $key, 'mrkv-uamp-') !== false) {
-                $id_number = substr( $key ,strpos( $key, 'mrkv-uamp-' ) );
-                $cats_collation_arr[] = $value;
+            if ( ! empty( $value ) ) {
+                $id_number = substr( $key , strpos( $key, 'mrkv-uamp-' ) + strlen( 'mrkv-uamp-' ) );
+                $cats_collation_arr[$id_number] = $value;
             }
         }
-
         return $cats_collation_arr;
     }
 

@@ -57,31 +57,31 @@ class XMLController {
                 if ( 'currencies' == $key ) { // XML tag <currencies>
                     $currencies = $shop->addChild( 'currencies' );
                     $currency = $currencies->addChild( 'currency' );
-                    $currency->addAttribute('id', $value[0]);
-                    $currency->addAttribute('rate', "1");
+                    $currency->addAttribute( 'id', $value[0] );
+                    $currency->addAttribute( 'rate', "1" );
 
                 } else if ( 'categories' == $key ) { // XML tag <categories>
                     $categories = $shop->addChild( 'categories' );
                     foreach ($value as $k => $v) {
                         if ( $v ) {
                             $category = $categories->addChild( 'category',
-                                $wcShopController->get_collation_category_name_by_id($v) );
-                            $category->addAttribute('id', $v);
-                            $category->addAttribute('rz_id', $v);
+                                $wcShopController->get_collation_category_name_by_id( $v ) );
+                            $category->addAttribute( 'id', $k );
+                            $category->addAttribute( 'rz_id', $v );
                         }
                     }
-                } else if ( 'offers' == $key ) {
-                    $offers = $shop->addChild('offers'); // XML tag <offers>
+                } else if ( 'offers' == $key ) { // XML tag <offers>
+                    $offers = $shop->addChild( 'offers' );
                     foreach ($value as $k => $v) {
                         if ( $v ) {
-                            $offer = $wcShopOffer->set_offer( $v, $offers ); // XML tag <offer>
+                            $offer = $wcShopOffer->set_offer( $v, $offers );
                         }
                     }
                 } else {
                     $this->array2xml( $value, $shop->addChild( $key ) );
                 }
             } else {
-                if ( ! \is_numeric($key) ) {
+                if ( ! \is_numeric( $key ) ) {
                     $shop->addChild( $key, $value );
                 }
             }
