@@ -44,7 +44,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
                 $picture = $this->set_picture( $id, $offer, $variation_id ); // XML tag <picture>
 
-                $name = $this->set_name( $id, $offer ); // XML tag <name>
+                $name = $this->set_variable_name( $id, $offer, $variation_attrs ); // XML tag <name>
 
                 $vendor = $this->set_vendor( $id, $offer ); // XML tag <vendor>
 
@@ -76,7 +76,7 @@ class WCShopOfferVariable extends WCShopOffer {
     public function set_price($offer) // XML tag <price>
     {
         $price = $this->variation->get_regular_price();
-        $price = apply_filters('mrkvuamp_after_get_regular_price', $price );     
+        $price = apply_filters( 'mrkvuamp_after_get_regular_price', $price );
         return $offer->addChild( 'price', $price );
     }
 
@@ -101,9 +101,10 @@ class WCShopOfferVariable extends WCShopOffer {
         }
     }
 
-    public function set_name( $id, $offer) // XML tag <name>
+    public function set_variable_name($id, $offer, $variation_attrs) // XML tag <name>
     {
-        return $offer->addChild( 'name', $this->get_product_title( $id ) );
+        $name = $this->get_product_title( $id ) . ' ' . $this->get_variation_params_values( $this->variation, $variation_attrs );
+        return $offer->addChild( 'name', $name );
     }
 
     public function set_vendor($id, $offer) // XML tag <vendor>
@@ -153,6 +154,14 @@ class WCShopOfferVariable extends WCShopOffer {
         }
 
         return join( "&", $params );
+    }
+
+    // Get variation parameters values for product variations (tag <name>)
+    public function get_variation_params_values($variation, $variation_attrs)
+    {
+        $attr_values = array_values( $variation_attrs );
+        $value = implode( " ", $attr_values );
+        return $value;
     }
 
     // Get variable image URLs for <picture> xml-tag

@@ -81,12 +81,28 @@
 	color: #a0a5aa !important;
 	background: #f7f7f7 !important;
 	border-color: #ddd !important;
-	// color: #66c6e4 !important;
-	// background: #008ec2 !important;
-	// border-color: #008ec2 !important;
 	box-shadow: none !important;
 	text-shadow: none !important;
 	&:hover {
 		cursor: default;
 	}
+}
+
+/* Remove toolbar from 'Опис товарів' editor textarea setting */
+#qt_mrkvuamp_description_editor_id_toolbar {
+	display: none;
+}
+
+/* `Rozetka Variation Image` field on a variation dropdown settings Edit Product admin page */
+label[for^="mrkvuamp_rozetka_variation_image"] + .woocommerce-help-tip {
+	float: right;
+}
+.mrkvuamp-full-width {
+	width: 100% !important;
+}
+
+/* Rozetka Quick Edit */
+.column-mrkvuamp_rozetka_title,
+.column-mrkvuamp_rozetka_cat_id {
+	width: 11%;
 }
