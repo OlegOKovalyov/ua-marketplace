@@ -69,7 +69,7 @@ class WCShopOfferSimple extends WCShopOffer {
 
     public function set_category_id($offer) // XML tag <categoryId>
     {
-        return $offer->addChild( 'categoryId', $this->get_marketplace_category_id() );
+        return $offer->addChild( 'categoryId', $this->get_wc_category_id() );
     }
 
     public function set_picture($id, $offer) // XML tag <picture>

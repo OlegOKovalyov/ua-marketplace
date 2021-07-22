@@ -12,6 +12,8 @@ class WCShopOfferVariable extends WCShopOffer {
 
     public $variation;
 
+    public $product_type;
+
     public function set_variable_offer($id, $offers)
     {
         // Checkbox '{Marketplace} xml' custom field
@@ -21,6 +23,7 @@ class WCShopOfferVariable extends WCShopOffer {
         }
 
         $this->_product = \wc_get_product( $id ); // Get variation product object
+        $this->product_type = $this->_product->get_type();
         $variation_permalink = $this->_product->get_permalink();
 
         $variations_ids = $this->_product->get_children();
@@ -44,7 +47,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
                 $picture = $this->set_picture( $id, $offer, $variation_id ); // XML tag <picture>
 
-                $name = $this->set_variable_name( $id, $offer, $variation_attrs ); // XML tag <name>
+                $name = $this->set_variable_name( $id, $offer, $this->variation ); // XML tag <name>
 
                 $vendor = $this->set_vendor( $id, $offer ); // XML tag <vendor>
 
@@ -87,13 +90,13 @@ class WCShopOfferVariable extends WCShopOffer {
 
     public function set_category_id($offer) // XML tag <categoryId>
     {
-        return $offer->addChild( 'categoryId', $this->get_marketplace_category_id() );
+        return $offer->addChild( 'categoryId', $this->get_wc_category_id() );
     }
 
     public function set_picture($id, $offer, $variation_id) // XML tag <picture>
     {
         $image_urls = $this->get_variable_image_urls( $id, $variation_id );
-        if ( \is_array( $image_urls ) ) {
+        if ( \is_array( $image_urls ) && ! empty( $image_urls ) ) {
             foreach ( $image_urls as $key => $value ) {
                 if ( empty( $value ) ) continue;
                 $offer->addChild( 'picture', $value );
@@ -101,9 +104,29 @@ class WCShopOfferVariable extends WCShopOffer {
         }
     }
 
-    public function set_variable_name($id, $offer, $variation_attrs) // XML tag <name>
+    public function get_variable_product_title($id, $variation) // XML tag <name>
     {
-        $name = $this->get_product_title( $id ) . ' ' . $this->get_variation_params_values( $this->variation, $variation_attrs );
+        foreach ( $this->activations as $activation  ) {
+            $slug =  \strtolower( $activation );
+            $marketplace_title = get_post_meta( $id, "mrkvuamp_{$slug}_title", true );
+            $variation_name = $variation->get_name();
+
+            if ( empty( $marketplace_title ) ) {
+                $product_title = str_replace( array( '-', ',' ), '', $variation_name );
+            }
+
+            if ( ! empty( $marketplace_title ) ) {
+                $product_title = $marketplace_title;
+                $product_title .= str_replace( ',','', substr( $variation_name, strpos( $variation_name, "-" ) + 1 ) );
+            }
+
+            return $product_title;
+        }
+    }
+
+    public function set_variable_name($id, $offer, $variation) // XML tag <name>
+    {
+        $name = $this->get_variable_product_title( $id, $variation );
         return $offer->addChild( 'name', $name );
     }
 
@@ -154,14 +177,6 @@ class WCShopOfferVariable extends WCShopOffer {
         }
 
         return join( "&", $params );
-    }
-
-    // Get variation parameters values for product variations (tag <name>)
-    public function get_variation_params_values($variation, $variation_attrs)
-    {
-        $attr_values = array_values( $variation_attrs );
-        $value = implode( " ", $attr_values );
-        return $value;
     }
 
     // Get variable image URLs for <picture> xml-tag

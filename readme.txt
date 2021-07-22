@@ -36,6 +36,17 @@ https://youtu.be/CYhov5nuET4
 
 == Що нового? ==
 
+= 1.2.0 =
+* [fix] виправлено формування тегу name для варіативних товарів
+* [fix] виправлено формування тегу description для варіативних товарів
+* WooCommerce tested 5.5
+
+= 1.1.11 =
+* [new] в xml-тег categoryId кожного offer тепер прописується id товару з магазину
+* [deprecated] прибрані поля Rozetka ID Category та ID Category з мета-полів товару
+* [fix] в xml-тег name тепер потрапляє значення поля Rozetka Title
+* [fix] в xml-тег description тепер потрапляє значення поля Rozetka Description
+
 = 1.1.10 =
 * [new] додані параметри варіації в xml-тег name
 * [fix] поновлена можливість редагувати кастомні поля вкладки Rozetka

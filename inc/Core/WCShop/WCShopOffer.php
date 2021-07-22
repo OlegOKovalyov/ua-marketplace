@@ -12,6 +12,8 @@ class WCShopOffer extends WCShopController {
 
     public $_product;
 
+    public $product_type;
+
     public $activations = array();
 
     public $slug_activations = array();
@@ -27,15 +29,16 @@ class WCShopOffer extends WCShopController {
     public function set_offer($id, $offers)
     {
         $this->_product = \wc_get_product( $id ); // Get product object from collation list
+
         $wcShopOfferSimple = new WCShopOfferSimple();
         $wcShopOfferVariable = new WCShopOfferVariable();
 
-        $product_type = $this->_product->get_type();
-        if ( 'simple' == $product_type ) {
+        $this->product_type = $this->_product->get_type();
+        if ( 'simple' == $this->product_type ) {
             $wcShopOfferSimple->set_simple_offer( $id, $offers );
         }
 
-        if ( 'variable' == $product_type ) {
+        if ( 'variable' == $this->product_type ) {
             $wcShopOfferVariable->set_variable_offer( $id, $offers );
         }
     }
@@ -170,7 +173,19 @@ class WCShopOffer extends WCShopController {
         return \array_merge( $image_urls, $gallery_image_urls );
     }
 
-    // Get marketplace category id for <categoryId> xml-tag
+    // Get WooCommerce category id for <categoryId> xml-tag
+    public function get_wc_category_id()
+    {
+        if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {
+            return;
+        }
+        // Get all product categories
+        $product_category_ids = $this->_product->get_category_ids();
+        // Get first available category
+        return $product_category_ids[0];
+    }
+
+    // Get marketplace category id for <categoryId> xml-tag (old function)
     public function get_marketplace_category_id()
     {
         if ( empty( get_option( 'mrkv_uamrkpl_collation_option' ) ) ) {

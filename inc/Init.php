@@ -30,7 +30,7 @@ final class Init
             // Addons
 			Base\AjaxHandler::class,
 			Base\WPCRONHandler::class,
-
+			
 			Core\WCShop\EditProduct\ExtraProductSettings::class,
 			Core\WCShop\EditProduct\ExtraVariationSettings::class,
 			Core\WCShop\EditProduct\QuickEditProductSettings::class,

@@ -87,13 +87,13 @@ class ExtraProductSettings {
         	) );
 
         	// '{Marketplace} ID Category' field
-         	woocommerce_wp_text_input( array(
-        		'id' => 'mrkvuamp_' . $slug . '_cat_id',
-        		'value'   => get_post_meta( get_the_ID(), 'mrkvuamp_' . $slug . '_cat_id', true ),
-        		'label' => __( "{$activation} ID Category", 'mrkv-ua-marketplaces' ),
-        		'desc_tip' => true,
-        		'description' => __( "Введіть бажаний номер категорії з сайту {$activation}.", 'mrkv-ua-marketplaces' ),
-        	) );
+         	// woocommerce_wp_text_input( array(
+        	// 	'id' => 'mrkvuamp_' . $slug . '_cat_id',
+        	// 	'value'   => get_post_meta( get_the_ID(), 'mrkvuamp_' . $slug . '_cat_id', true ),
+        	// 	'label' => __( "{$activation} ID Category", 'mrkv-ua-marketplaces' ),
+        	// 	'desc_tip' => true,
+        	// 	'description' => __( "Введіть бажаний номер категорії з сайту {$activation}.", 'mrkv-ua-marketplaces' ),
+        	// ) );
 
         	// '{Marketplace} image' field
             echo '<input id="mrkvuamp_imgurl_btn" type="button" class="button" value="Image URL">';

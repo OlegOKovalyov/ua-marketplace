@@ -109,14 +109,14 @@ class QuickEditProductSettings {
     		}
             if ( "mrkvuamp_{$slug}_cat_id" == $column_name ) {
     		    $marketplace_cat_id = get_post_meta( $post_id, "mrkvuamp_{$slug}_cat_id", true ); ?>
-    						<label class="inline-edit-group">
+    						<!-- <label class="inline-edit-group">
     							<span class="title">ID Category</span>
     							<span class="input-text-wrap">
-    								<input type="text" name="mrkvuamp_<?php echo $slug; ?>_cat_id"
-                                            class="mrkvuamp<?php echo $slug; ?>cat_id"
-                                            value="<?php echo $marketplace_cat_id; ?>">
+    								<input type="text" name="mrkvuamp_<?php // echo $slug; ?>_cat_id"
+                                            class="mrkvuamp<?php // echo $slug; ?>cat_id"
+                                            value="<?php // echo $marketplace_cat_id; ?>">
     							</span>
-    						</label>
+    						</label> -->
     					</div>
     				</fieldset>
     		    <?php
