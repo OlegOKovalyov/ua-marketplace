@@ -30,7 +30,7 @@ class XMLController {
 
         $this->xml_header = '<yml_catalog date="' . $this->current_date . '"></yml_catalog>';
 
-        $this->xml_filepath = WP_CONTENT_DIR . '/uploads/mrkvuamp' . $this->marketplace . '.xml';
+        $this->xml_filepath = $this->create_uploads_dir() . '/mrkvuamp' . $this->marketplace . '.xml';
 
         if ( ! \class_exists( 'WooCommerce' ) ) {
             return;
@@ -38,6 +38,14 @@ class XMLController {
 
         global $woocommerce, $product;
 
+    }
+
+    public function create_uploads_dir()
+    {
+        $upload_dir = wp_upload_dir();
+        $upload_uamrktpls_dir = $upload_dir['basedir'] . '/uamrktpls';
+        if( ! file_exists( $upload_uamrktpls_dir ) ) wp_mkdir_p( $upload_uamrktpls_dir );
+        return $upload_uamrktpls_dir;
     }
 
     public function array2xml($array, $xml = null)
@@ -87,9 +95,35 @@ class XMLController {
             }
         }
 
+        // Before create new xml remove old xml
+        if ( \file_exists( $this->xml_filepath ) ) {
+            \chmod( $this->xml_filepath, 0777 );
+            if ( ! \unlink( $this->xml_filepath ) ) {
+                //\error_log( "xml-file cannot be deleted due to an error" );
+            }
+            else {
+                //\error_log( "xml-file has been deleted" );
+            }
+        }
+
         // Create XML-file
-        $xml->saveXML();
-        return $xml->asXML( WP_CONTENT_DIR . "/uploads/mrkvuamp" . $this->marketplace . ".xml" );
+        header('Clear-Site-Data: "cache"');
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Content-Type: application/xml; charset=utf-8");
+
+        // Save the output to a variable
+        $content = $xml->asXML();
+
+        // Now open a file to write to
+        $handle = fopen( $this->xml_filepath, "w" );
+
+        // Write the contents to the file
+        fwrite( $handle, $content );
+
+        //Close the file
+        fclose( $handle );
+
+        return $xml->asXML( $this->xml_filepath );
     }
 
     public function last_xml_file_date()

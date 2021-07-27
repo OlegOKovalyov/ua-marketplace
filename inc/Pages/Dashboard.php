@@ -35,6 +35,8 @@ class Dashboard extends BaseController
 		$this->setFields();
 
 		$this->settings->addPages( $this->pages )->withSubPage( 'Dashboard' )->register();
+
+		add_action( 'admin_init', array( $this, 'pluginCacheClamesNotice' ) );
 	}
 
 	public function setPages()
@@ -100,6 +102,18 @@ class Dashboard extends BaseController
 		}
 
 		$this->settings->setFields( $args );
+	}
+
+	public function pluginCacheClamesNotice()
+	{
+		global $pagenow;
+		if ( $pagenow == 'admin.php' ) {
+			 echo '<div class="notice notice-warning is-dismissible" style="display:inline-block">
+				 <p>Якщо на вашому сайті працює плагін кешування, налаштуйте виключення для xml файлів.</p>
+				 <p>Якщо додаєте у прайс більше 200 товарів, збільшіть php execution time до максимально можливого (наприклад, 3600).</p>
+				 <p>Якщо товарів на сайті доволі багато, то xml-прайс може створитися і через хвилину після зникнення спінера.</p>
+			 </div>';
+		}
 	}
 
 }

@@ -126,7 +126,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
     public function set_variable_name($id, $offer, $variation) // XML tag <name>
     {
-        $name = $this->get_variable_product_title( $id, $variation );
+        $name = str_replace( array( '-', ',' ), '', $variation->get_name() );
         return $offer->addChild( 'name', $name );
     }
 

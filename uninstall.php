@@ -21,7 +21,7 @@ mrkv_uamrkpl_delete_wp_options_prefixed( 'mrkv_uamrkpl_' );
 delete_option( 'mrkv_ua_marketplaces' );
 
 // Remove xml-file
-$file_pointer = WP_CONTENT_DIR . '/uploads/mrkvuamprozetka.xml';
+$file_pointer = WP_CONTENT_DIR . '/uploads/uamrktpls/mrkvuamprozetka.xml';
 if ( \file_exists( $file_pointer ) ) {
 	\unlink( $file_pointer );
 }

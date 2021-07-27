@@ -45,7 +45,7 @@ class AjaxHandler extends BaseController
 
         // Create XML-price for marketplace
         $converter = new \Inc\Core\XMLController( 'rozetka' );
-        $xml_filename = '/uploads/mrkvuamp' . $converter->marketplace . '.xml';
+        $xml_filename = $converter->create_uploads_dir() . $converter->marketplace . '.xml';
         $xml = $converter->array2xml( $mrkv_uamrkpl_shop_arr );
 
         wp_die();

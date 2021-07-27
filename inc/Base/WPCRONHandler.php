@@ -23,9 +23,9 @@ class WPCRONHandler extends BaseController
         foreach ( $activation_options_name as $key => $value ) {
             $marketplace = $this->activations[$key];
             $xml = new XMLController( strtolower( $marketplace ) );
-            
+
             // Create xml-file name for each marketplace
-            $xml_fileurl = '/uploads/mrkvuamp' . strtolower( $marketplace ) . '.xml';
+            $xml_fileurl = '/uploads/uamrktpls/mrkvuamp' . strtolower( $marketplace ) . '.xml';
 
             // Activate CRON-task for generation xml-прайс twice daily
             if ( file_exists( $xml->xml_filepath ) ) {
@@ -50,7 +50,7 @@ class WPCRONHandler extends BaseController
 
         // Create XML-price for marketplace
         $converter = new \Inc\Core\XMLController( 'rozetka' );
-        $xml_filename = '/uploads/mrkvuamp' . $converter->marketplace . '.xml';
+        $xml_filename = '/uploads/uamrktpls/mrkvuamp' . $converter->marketplace . '.xml';
         $xml = $converter->array2xml( $mrkv_uamrkpl_shop_arr );
         exit;
     }

@@ -53,7 +53,7 @@ class ExtraProductSettings {
                 ? sanitize_text_field( $_POST["mrkvuamp_{$slug}_not_xml"] ) : 0;
     		update_post_meta( $id, "mrkvuamp_{$slug}_not_xml", $mrkvuamp_not_xml );
     		update_post_meta( $id, "mrkvuamp_{$slug}_title", sanitize_text_field( $_POST["mrkvuamp_{$slug}_title"] ) );
-    		update_post_meta( $id, "mrkvuamp_{$slug}_cat_id", sanitize_text_field( $_POST["mrkvuamp_{$slug}_cat_id"] ) );
+    		// update_post_meta( $id, "mrkvuamp_{$slug}_cat_id", sanitize_text_field( $_POST["mrkvuamp_{$slug}_cat_id"] ) );
     		update_post_meta( $id, "mrkvuamp_{$slug}_image", sanitize_text_field( $_POST["mrkvuamp_{$slug}_image"] ) );
     		update_post_meta( $id, "mrkvuamp_{$slug}_description", wp_filter_kses( $_POST["mrkvuamp_{$slug}_description"] )  );
         }
