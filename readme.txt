@@ -36,7 +36,7 @@ https://youtu.be/CYhov5nuET4
 
 == Що нового? ==
 
-= 1.2.1 =
+= 1.2.1.0 =
 * [new] змінено теку формування прайсу на uploads uamrktpls
 
 = 1.2.0 =

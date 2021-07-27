@@ -11,7 +11,7 @@ if (location.search.indexOf('page=mrkv_ua_marketplaces') !== -1) { // Only Dashb
         // Copy xml content as string to browser Clipboard with 'Скопіювати' button on Dashboard tab
         jQuery( '.mrkvuamp_xml_link_copy' ).on('click', function(){
 
-            var refFile = "/wp-content/uploads/mrkvuamprozetka.xml"; // path to my txt file
+            var refFile = "/wp-content/uploads/uamrktpls/mrkvuamprozetka.xml"; // path to my txt file
             var fileContent;
 
             jQuery.get(refFile, function(response) {

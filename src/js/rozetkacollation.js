@@ -75,7 +75,7 @@ jQuery(document).ready(function(){
         removeHiddenLink();
         async function removeHiddenLink() {
             jQuery.ajax({
-                url: protocol + '\/\/' + host + '/wp-content/uploads/mrkvuamprozetka.xml',
+                url: protocol + '\/\/' + host + '/wp-content/uploads/uamrktpls/mrkvuamprozetka.xml',
                 headers: { 'Clear-Site-Data': "cache" },
                 type:'HEAD',
                 cache: false,
