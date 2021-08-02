@@ -18,19 +18,27 @@ class WPCRONHandler extends BaseController
         if ( empty( get_option( 'mrkv_ua_marketplaces' ) ) ) {
             return;
         }
-        $activation_options_name = get_option( 'mrkv_ua_marketplaces');
+        $activation_options_name = get_option( 'mrkv_ua_marketplaces' );
 
         foreach ( $activation_options_name as $key => $value ) {
-            $marketplace = $this->activations[$key];
-            $xml = new XMLController( strtolower( $marketplace ) );
+            if ( $value ) {
 
-            // Create xml-file name for each marketplace
-            $xml_fileurl = '/uploads/uamrktpls/mrkvuamp' . strtolower( $marketplace ) . '.xml';
+                // Get marketplace name from wp-option 'mrkv_ua_marketplaces'
+                if (preg_match('/mrkvuamp_(.*?)_activation/', $key, $match) == 1) {
+                    $marketplace = $match[1];
+                }
 
-            // Activate CRON-task for generation xml-прайс twice daily
-            if ( file_exists( $xml->xml_filepath ) ) {
-                add_action( 'admin_head', array( $this, 'activate_xml_update' ) );
-                add_action( 'mrkvuamp_update_xml_hook', array( $this, 'update_xml_exec' ) );
+                $xml = new XMLController( $marketplace );
+
+                // Create xml-file name for each active marketplace
+                $xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlname;
+
+                // Activate CRON-task for generation xml-прайс
+                if ( file_exists( $xml->xml_filepath ) ) {
+                    // add_filter( 'cron_schedules', array( $this, 'add_five_minutes_cron_interval' ) ); // For test CRON
+                    add_action( 'admin_head', array( $this, 'activate_xml_update' ) );
+                    add_action( 'mrkvuamp_update_xml_hook', array( $this, 'update_xml_exec' ) );
+                }
             }
         }
     }
@@ -38,7 +46,7 @@ class WPCRONHandler extends BaseController
     public function activate_xml_update()
     {
         if( ! wp_next_scheduled( 'mrkvuamp_update_xml_hook' ) ) {
-            wp_schedule_event( time(), 'twicedaily', 'mrkvuamp_update_xml_hook' );
+            wp_schedule_event( time(), 'daily', 'mrkvuamp_update_xml_hook' ); // For FREE-version
         }
     }
 
@@ -50,7 +58,6 @@ class WPCRONHandler extends BaseController
 
         // Create XML-price for marketplace
         $converter = new \Inc\Core\XMLController( 'rozetka' );
-        $xml_filename = '/uploads/uamrktpls/mrkvuamp' . $converter->marketplace . '.xml';
         $xml = $converter->array2xml( $mrkv_uamrkpl_shop_arr );
         exit;
     }

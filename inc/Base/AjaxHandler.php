@@ -43,9 +43,9 @@ class AjaxHandler extends BaseController
         $mrkv_uamrkpl_shop = new WCShopCollation('shop');
         $mrkv_uamrkpl_shop_arr = (array) $mrkv_uamrkpl_shop;
 
-        // Create XML-price for marketplace
+        // Create XML-price for marketplace Rozetka
         $converter = new \Inc\Core\XMLController( 'rozetka' );
-        $xml_filename = $converter->create_uploads_dir() . $converter->marketplace . '.xml';
+        $xml_filename = $converter->xml_filepath;
         $xml = $converter->array2xml( $mrkv_uamrkpl_shop_arr );
 
         wp_die();

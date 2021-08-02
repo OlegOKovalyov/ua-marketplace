@@ -6,7 +6,7 @@ use \Inc\Core\XMLController;
 if ( ! $this->activated( 'mrkvuamp_rozetka_activation' ) ) return;
 
 $xml = new XMLController( 'rozetka' );
-$xml_fileurl = '/uploads/uamrktpls/mrkvuamprozetka.xml';
+$xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlname;
 
 ?>
 
@@ -51,7 +51,7 @@ $xml_fileurl = '/uploads/uamrktpls/mrkvuamprozetka.xml';
                 <div class="mrkvuamp_collation_xml_link hidden" >
                     <form action="">
                         <p>Посилання на
-                            <a  class="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url() . $xml_fileurl; clearstatcache(); ?>">останній згенерований xml</a>
+                            <a  class="mrkvuamp_xml_link" target="_blank" href="<?php echo esc_url( $xml_fileurl ); clearstatcache(); ?>">останній згенерований xml</a>
                             <?php $xml->last_xml_file_date(); ?>
                         </p>
                     </form>

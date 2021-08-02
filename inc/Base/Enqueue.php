@@ -7,6 +7,7 @@
 namespace Inc\Base;
 
 use \Inc\Base\BaseController;
+use \Inc\Core\XMLController;
 
 class Enqueue extends BaseController
 {
@@ -36,6 +37,17 @@ class Enqueue extends BaseController
 		// wp_enqueue_script('mrkvvuejs', $this->plugin_url . 'node_modules/vue/dist/vue.js' );
 		// wp_enqueue_script( 'clipboard');
 		wp_enqueue_script( 'morkvauamarketplacescript', $this->plugin_url . 'assets/mrkvmpscript.min.js', array('jquery'), $this->plugin_ver['ver'], true );
+
+		$xml = new XMLController( 'rozetka' );
+		$xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlname;
+		// Add php variables for using in js-script
+		wp_localize_script(
+		    'morkvauamarketplacescript', // the handle of the 'morkvauamarketplacescript' script we enqueued above
+		    'mrkvuamp_script_vars', // object name to access our PHP variables from in js-script
+		    array( // register an array of variables we would like to use in js-script
+		        'rozetka_xml_path' => $xml_fileurl
+		    )
+		);
 
 		wp_register_script( 'Sweetalert2', 'https://cdn.jsdelivr.net/npm/sweetalert2@10', null, null, true );
 		wp_enqueue_script('Sweetalert2');

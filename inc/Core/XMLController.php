@@ -5,12 +5,13 @@
 
 namespace Inc\Core;
 
+use \Inc\Base\BaseController;
 use \Inc\Core\WCShopController;
 use \Inc\Core\WCShop\WCShopOffer;
 
 require_once ('SimpleXMLElementExtended.php');
 
-class XMLController {
+class XMLController extends BaseController {
 
     public $marketplace; // замість хардкоду mrkvuamprozetka.xml (може бути 'rozetka', 'promua')
 
@@ -22,6 +23,11 @@ class XMLController {
 
     public $xml_filepath;
 
+    public $plugin_uploads_dir;
+    public $plugin_uploads_rozetka_xmlname;
+    public $plugin_uploads_dir_path;
+    public $plugin_uploads_dir_url;
+
     public function __construct($marketplace)
     {
         $this->marketplace = $marketplace;
@@ -30,7 +36,19 @@ class XMLController {
 
         $this->xml_header = '<yml_catalog date="' . $this->current_date . '"></yml_catalog>';
 
-        $this->xml_filepath = $this->create_uploads_dir() . '/mrkvuamp' . $this->marketplace . '.xml';
+        $baseController = new BaseController;
+
+        $this->plugin_uploads_dir = $baseController->plugin_uploads_dir;
+        $this->plugin_uploads_rozetka_xmlname = $baseController->plugin_uploads_rozetka_xmlname;
+        $this->plugin_uploads_dir_path = $baseController->plugin_uploads_dir_path;
+        $this->plugin_uploads_dir_url = $baseController->plugin_uploads_dir_url;
+
+        // $custom_xml_name = get_option( 'mrkv_uamrkpl_rozetka_xml_name' );
+        // if ( $custom_xml_name ) {
+        //     $this->xml_filepath = $baseController->plugin_uploads_dir_path . '/' . sanitize_file_name( $custom_xml_name )  . '.xml';
+        // } else {
+            $this->xml_filepath = $baseController->plugin_uploads_dir_path . '/mrkvuamp' . $this->marketplace . '.xml';
+        // }
 
         if ( ! \class_exists( 'WooCommerce' ) ) {
             return;
@@ -38,14 +56,6 @@ class XMLController {
 
         global $woocommerce, $product;
 
-    }
-
-    public function create_uploads_dir()
-    {
-        $upload_dir = wp_upload_dir();
-        $upload_uamrktpls_dir = $upload_dir['basedir'] . '/uamrktpls';
-        if( ! file_exists( $upload_uamrktpls_dir ) ) wp_mkdir_p( $upload_uamrktpls_dir );
-        return $upload_uamrktpls_dir;
     }
 
     public function array2xml($array, $xml = null)

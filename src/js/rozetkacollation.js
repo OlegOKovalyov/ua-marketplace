@@ -47,8 +47,8 @@ jQuery(document).ready(function(){
 
             // Show spinner beside 'Співставити' button
             async function showSpinner() {
-                // var protocol = jQuery(location).attr('protocol'); // http or https
-                // var host = jQuery(location).attr('host'); // example.com
+                var protocol = jQuery(location).attr('protocol'); // http or https
+                var host = jQuery(location).attr('host'); // example.com
                 // Get spinner gif-file data
                 var loaderUrl = protocol + '\/\/' + host + '/wp-content/plugins/ua-marketplace/assets/images/spinner.gif';
                 var image = new Image();
@@ -75,7 +75,7 @@ jQuery(document).ready(function(){
         removeHiddenLink();
         async function removeHiddenLink() {
             jQuery.ajax({
-                url: protocol + '\/\/' + host + '/wp-content/uploads/uamrktpls/mrkvuamprozetka.xml',
+                url: mrkvuamp_script_vars.rozetka_xml_path, // path to rozetka xml file,
                 headers: { 'Clear-Site-Data': "cache" },
                 type:'HEAD',
                 cache: false,

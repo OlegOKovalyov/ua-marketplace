@@ -20,10 +20,10 @@ require_once( 'dashboard-header.php' );
                     <h2><?php echo $marketplace ?></h2>
                     <?php
                         $xml = new XMLController( strtolower( $marketplace ) );
-                        $xml_fileurl = '/uploads/uamrktpls/mrkvuamp' . strtolower( $marketplace ) . '.xml';
+                        $xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlname;
                     ?>
                     <?php if ( file_exists( $xml->xml_filepath ) ) : // Last xml-file link ?>
-                        <a class="mrkvuamp_xml_link" target="_blank" href="<?php echo content_url() . $xml_fileurl; clearstatcache(); ?>">останній згенерований xml</a>
+                        <a class="mrkvuamp_xml_link" target="_blank" href="<?php echo esc_url( $xml_fileurl ); clearstatcache(); ?>">останній згенерований xml</a>
                         <div><?php $xml->last_xml_file_date(); ?></div>
                         <span class="mrkvuamp_xml_link_copy button">Скопіювати</span>
                     <?php else : ?>
