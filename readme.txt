@@ -3,7 +3,6 @@ Contributors: bandido, olegkovalyov
 Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
 Tested up to: 5.7
-Requires PHP: 7.0
 Stable tag: 1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +34,9 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.2.7 =
+* [new] доданий progress bar створення xml файлу
 
 = 1.2.3 =
 * [fix] відновлення роботи CRON після зміни теки вивантаження xml-файлу

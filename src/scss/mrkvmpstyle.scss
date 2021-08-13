@@ -21,6 +21,7 @@
 	> li {
 		margin-right: 50px;
 		a {
+			padding: 5px;
 			text-decoration: none;
 		}
 		&.active {
@@ -45,6 +46,13 @@
 /* Rozetka main configurations*/
 .mrkv-font-italic {
 	font-style: italic;
+}
+.blinking-message {
+	animation: blink 2s infinite; /* Параметры анимации */
+}
+@keyframes blink {
+	from { opacity: 1; /* Непрозрачный текст */ }
+	to { opacity: 0; /* Прозрачный текст */ }
 }
 
 /* Rozetka show hierarchical categories */

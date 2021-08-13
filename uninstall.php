@@ -44,5 +44,7 @@ foreach( $files as $file ) {
     }
 }
 
-// Delete plugin uploads directory
-rmdir( $rozetka_plugin_uploads_dir_path );
+// Delete plugin uploads directory if it is empty
+if ( is_readable( $rozetka_plugin_uploads_dir_path ) && count( scandir( $rozetka_plugin_uploads_dir_path ) ) == 2 ) {
+    rmdir( $rozetka_plugin_uploads_dir_path );
+}

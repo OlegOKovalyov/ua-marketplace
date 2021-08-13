@@ -2,11 +2,16 @@
 
 use \Inc\Core\WCShop\WCShopCollation;
 use \Inc\Core\XMLController;
+use \Inc\Core\WCShopController;
 
 if ( ! $this->activated( 'mrkvuamp_rozetka_activation' ) ) return;
 
-$xml = new XMLController( 'rozetka' );
+$xml = new XMLController( 'rozetka' ); // Get xml-file URL and plugin uploads dir path
 $xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlname;
+$plugin_uploads_dir_path = $xml->plugin_uploads_dir_path;
+
+$wcShopController = new WCShopController(); // Get site total product quantity
+$site_total_product_qty = $wcShopController->site_total_product_qty;
 
 ?>
 
@@ -45,14 +50,26 @@ $xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlna
     </ul>
 
     <div class="mrkvuamp-nav-links-content">
+
+        <?php // Загальні налаштування link ?>
         <div id="mrkvuamp_main-configuration" class="link-pane active">
 
             <?php // Last xml-file link ?>
                 <div class="mrkvuamp_collation_xml_link hidden" >
                     <form action="">
                         <p>Посилання на
-                            <a  class="mrkvuamp_xml_link" target="_blank" href="<?php echo esc_url( $xml_fileurl ); clearstatcache(); ?>">останній згенерований xml</a>
-                            <?php $xml->last_xml_file_date(); ?>
+                            <a  class="mrkvuamp_xml_link" target="_blank" href="<?php clearstatcache(); echo esc_url( $xml_fileurl ); clearstatcache(); ?>">останній згенерований xml</a>
+                                <?php $xml->last_xml_file_date();
+                                    $xml_file_path = $plugin_uploads_dir_path . $xml->plugin_uploads_rozetka_xmlname;
+                                    $xml_file_size = ( file_exists( $xml_file_path ) ) ? filesize( $xml_file_path ) : '';
+                                    $progBarCoef = ( $site_total_product_qty < 100 ) ? 1 : 2.3;
+                                ?>
+                                <br><?php // xml-file processing progress bar ?>
+                                <progress id="mrkvuamp-progress-xml-upload" max="<?php echo \round( $site_total_product_qty * $progBarCoef ); ?>" value="0" style="width: 98%;"></progress>
+                                <div class="hidden" id="mrkvuamp_progbar_hidden_msg" style="padding-left: 10px;"></div>
+                                <input type="hidden" name="mrkvuamp_xml_file_path" value="<?php echo sanitize_text_field( $xml_file_path ); ?>" />
+                                <input type="hidden" name="mrkvuamp_xml_file_size" value="<?php echo sanitize_text_field( $xml_file_size ); ?>" />
+                                <input type="hidden" name="mrkvuamp_site_total_product_qty" value="<?php echo sanitize_text_field( $site_total_product_qty ); ?>" />
                         </p>
                     </form>
                 </div>
@@ -69,6 +86,7 @@ $xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlna
 
         </div>
 
+        <?php // Співставлення категорій link ?>
         <?php require_once( 'rozetka-collation.php' ); ?>
 
         <div id="mrkvuamp-my-orders" class="link-pane">

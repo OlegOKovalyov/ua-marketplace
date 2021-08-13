@@ -36,19 +36,13 @@ class XMLController extends BaseController {
 
         $this->xml_header = '<yml_catalog date="' . $this->current_date . '"></yml_catalog>';
 
-        $baseController = new BaseController;
+        $baseController = new BaseController();
 
         $this->plugin_uploads_dir = $baseController->plugin_uploads_dir;
         $this->plugin_uploads_rozetka_xmlname = $baseController->plugin_uploads_rozetka_xmlname;
         $this->plugin_uploads_dir_path = $baseController->plugin_uploads_dir_path;
         $this->plugin_uploads_dir_url = $baseController->plugin_uploads_dir_url;
-
-        // $custom_xml_name = get_option( 'mrkv_uamrkpl_rozetka_xml_name' );
-        // if ( $custom_xml_name ) {
-        //     $this->xml_filepath = $baseController->plugin_uploads_dir_path . '/' . sanitize_file_name( $custom_xml_name )  . '.xml';
-        // } else {
-            $this->xml_filepath = $baseController->plugin_uploads_dir_path . '/mrkvuamp' . $this->marketplace . '.xml';
-        // }
+        $this->xml_filepath = $baseController->plugin_uploads_dir_path . $this->plugin_uploads_rozetka_xmlname;
 
         if ( ! \class_exists( 'WooCommerce' ) ) {
             return;
@@ -106,7 +100,7 @@ class XMLController extends BaseController {
         }
 
         // Before create new xml remove old xml
-        if ( \file_exists( $this->xml_filepath ) ) {
+        if ( \file_exists( $this->xml_filepath ) && \is_file( $this->xml_filepath ) ) {
             \chmod( $this->xml_filepath, 0777 );
             if ( ! \unlink( $this->xml_filepath ) ) {
                 //\error_log( "xml-file cannot be deleted due to an error" );
@@ -120,6 +114,7 @@ class XMLController extends BaseController {
         header('Clear-Site-Data: "cache"');
         header("Cache-Control: no-cache, must-revalidate");
         header("Content-Type: application/xml; charset=utf-8");
+        clearstatcache();
 
         // Save the output to a variable
         $content = $xml->asXML();

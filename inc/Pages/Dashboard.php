@@ -86,16 +86,16 @@ class Dashboard extends BaseController
 	{
 		$args = array();
 
-		foreach ( $this->activations as $key => $value ) {
+		foreach ( $this->marketplaces as $key => $value ) {
 			$args[] = array(
-				'id'		=> $key,
+				'id'		=> 'mrkvuamp_' . strtolower( $value ) . '_activation',
 				'title'		=> $value,
 				'callback'	=> array( $this->callbacks_activation, 'checkboxField' ),
 				'page'		=> 'mrkv_ua_marketplaces',
 				'section'	=> 'mrkvuamp_activation_section',
 				'args'		=> array(
 					'option_name'	=> 'mrkv_ua_marketplaces',
-					'label_for' 	=> $key,
+					'label_for' 	=> 'mrkvuamp_' . strtolower( $value ) . '_activation',
 					'class'			=> strtolower( $value ) . '_activation_class'
 				)
 			);
@@ -111,7 +111,7 @@ class Dashboard extends BaseController
 			 echo '<div class="notice notice-warning is-dismissible" style="display:inline-block">
 				 <p>Якщо на вашому сайті працює плагін кешування, налаштуйте виключення для xml файлів.</p>
 				 <p>Якщо додаєте у прайс більше 200 товарів, збільшіть php execution time до максимально можливого (наприклад, 3600).</p>
-				 <p>Якщо товарів на сайті доволі багато, то xml-прайс може створитися і через хвилину після зникнення спінера.</p>
+				 <p>Якщо товарів на сайті доволі багато, то xml-прайс може створюватися декілька хвилин після зникнення спінера.</p>
 			 </div>';
 		}
 	}

@@ -158,7 +158,7 @@ class WCShopOffer extends WCShopController {
             }
         }
 
-        // If not exists product image gallary
+        // If product image gallery is not exists
         if ( empty( $this->_product->get_gallery_image_ids() ) && ! empty( $image_urls ) ) {
             return $image_urls;
         }

@@ -169,6 +169,7 @@ class WCShopOfferVariable extends WCShopOffer {
     public function get_variation_params($variation, $variation_attrs)
     {
         $attr_keys = array_keys( $variation_attrs );
+        $params = array();
 
         for ( $i = 0; $i < \sizeof( $attr_keys );  $i++) {
             $key = $attr_keys[$i];

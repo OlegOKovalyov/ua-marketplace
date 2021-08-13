@@ -22,6 +22,8 @@ class WCShopController {
 
     public $offers = array();
 
+    public $site_total_product_qty;
+
     public function __construct()
     {
 
@@ -47,7 +49,18 @@ class WCShopController {
 
         $this->offers = $this->get_wc_offers_ids();
 
+        $this->site_total_product_qty = $this->get_total_site_product_quantity();
 
+    }
+
+    public function get_total_site_product_quantity()
+    {
+        // Get total product quantity on the site
+        $args = array(
+            'limit' => -1,
+            'status' => array( 'publish' )
+        );
+        return \count( \wc_get_products( $args ) );
     }
 
     public function get_wc_offers_ids()
@@ -96,7 +109,7 @@ class WCShopController {
                 }
             }
         }
-
+        $wc_cats_collation_arr = $wc_cats_collation_arr ?? array();
         return $wc_cats_collation_arr;
     }
 
@@ -112,6 +125,7 @@ class WCShopController {
                 $cats_collation_arr[$id_number] = $value;
             }
         }
+        $cats_collation_arr = $cats_collation_arr ?? array();
         return $cats_collation_arr;
     }
 
