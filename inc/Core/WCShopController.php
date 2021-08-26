@@ -22,8 +22,6 @@ class WCShopController {
 
     public $offers = array();
 
-    public $site_total_product_qty;
-
     public function __construct()
     {
 
@@ -49,18 +47,6 @@ class WCShopController {
 
         $this->offers = $this->get_wc_offers_ids();
 
-        $this->site_total_product_qty = $this->get_total_site_product_quantity();
-
-    }
-
-    public function get_total_site_product_quantity()
-    {
-        // Get total product quantity on the site
-        $args = array(
-            'limit' => -1,
-            'status' => array( 'publish' )
-        );
-        return \count( \wc_get_products( $args ) );
     }
 
     public function get_wc_offers_ids()

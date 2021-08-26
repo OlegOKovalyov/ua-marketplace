@@ -8,7 +8,6 @@ namespace Inc\Base;
 
 use \Inc\Base\BaseController;
 use \Inc\Core\XMLController;
-use \Inc\Core\WCShopController;
 
 class Enqueue extends BaseController
 {
@@ -40,15 +39,16 @@ class Enqueue extends BaseController
 		wp_enqueue_script( 'morkvauamarketplacescript', $this->plugin_url . 'assets/mrkvmpscript.min.js', array('jquery'), $this->plugin_ver['ver'], true );
 
 		$xml = new XMLController( 'rozetka' );
-		$xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlname; // Get xml-file URL
-		$wcShopController = new WCShopController();
-		$site_total_product_qty = $wcShopController->site_total_product_qty; // Get site total product quantity
+		$xml_rozetka_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlname; // Get Rozetka xml-file URL
+		$xml_promua_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_promua_xmlname; // Get PromUA xml-file URL
+		$site_total_product_qty = $xml->site_total_product_qty; // Get site total product quantity
 
 		wp_localize_script( 				// Add php variables for using in js-script:
 		    'morkvauamarketplacescript', 	// the handle of the 'morkvauamarketplacescript' script we have enqueued above
 		    'mrkvuamp_script_vars', 		// object name to access our PHP variables from in js-script
 		    array( 							// Register an array of variables we would like to use in js-script
-		        'rozetka_xml_path' => $xml_fileurl,
+		        'rozetka_xml_path' => $xml_rozetka_fileurl,
+		        'promua_xml_path' => $xml_promua_fileurl,
 		        'site_total_product_qty' => $site_total_product_qty
 		    )
 		);

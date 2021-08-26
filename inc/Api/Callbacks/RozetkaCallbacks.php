@@ -67,7 +67,8 @@ class RozetkaCallbacks extends BaseController
         echo '<span>' . __(' Оберіть варіант, що формує бренди товарів на вашому сайті.', 'mrkv-ua-marketplaces' ).'</span>';
     }
 
-    public function setVendorByAttributes() {
+    public function setVendorByAttributes()
+    {
         $value = get_option( 'mrkv_uamrkpl_rozetka_vendor_by_attributes' );
         $array_attributes = array();
         $attribute_taxonomies = wc_get_attribute_taxonomies();
@@ -105,7 +106,8 @@ class RozetkaCallbacks extends BaseController
         }
     }
 
-    public function setVendorAllPossibilities() {
+    public function setVendorAllPossibilities()
+    {
         $value = get_option( 'mrkv_uamrkpl_rozetka_vendor_all_possibilities' );
         $postmetas = array();
         $posts = get_posts( array(

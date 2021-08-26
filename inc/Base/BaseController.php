@@ -22,7 +22,10 @@ class BaseController
     public $slug_activations = array();
 
     public $plugin_uploads_dir;
+
     public $plugin_uploads_rozetka_xmlname;
+    public $plugin_uploads_promua_xmlname;
+
     public $plugin_uploads_dir_path;
     public $plugin_uploads_dir_url;
 
@@ -53,7 +56,10 @@ class BaseController
         }
 
         $this->plugin_uploads_dir = '/' . $this->setPluginUploadsDir() . '/';
+
         $this->plugin_uploads_rozetka_xmlname = $this->setRozetkaXMLName();
+        $this->plugin_uploads_promua_xmlname = $this->setPromuaXMLName();
+        
         $this->plugin_uploads_dir_path = $this->create_uploads_dir( $this->plugin_uploads_dir );
         $this->plugin_uploads_dir_url = $this->get_uploads_url( $this->plugin_uploads_dir );
 	}
@@ -64,6 +70,14 @@ class BaseController
             return get_option( 'mrkv_uamrkpl_rozetka_xml_filename' ) . '.xml';
         }
         return 'mrkvuamprozetka.xml';
+    }
+
+    public function setPromuaXMLName()
+    {
+        if ( ! empty( get_option( 'mrkv_uamrkpl_promua_xml_filename' ) ) ) {
+            return get_option( 'mrkv_uamrkpl_promua_xml_filename' ) . '.xml';
+        }
+        return 'mrkvuamppromua.xml';
     }
 
     public function setPluginUploadsDir()
@@ -98,4 +112,5 @@ class BaseController
 
         return isset( $option[$key] ) ? $option[$key] : false;
     }
+
 }

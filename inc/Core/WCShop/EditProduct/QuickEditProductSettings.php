@@ -47,8 +47,10 @@ class QuickEditProductSettings {
     public function add_product_columns( $posts_columns ) {
         foreach ( $this->activations as $activation  ) {
             $slug =  \strtolower( $activation );
-            $posts_columns["mrkvuamp_{$slug}_title"] = __( "{$activation} Title", 'mrkv-ua-marketplaces' );
-            $posts_columns["mrkvuamp_{$slug}_cat_id"] = __( "{$activation} ID Category", 'mrkv-ua-marketplaces' );
+            if ( 'rozetka' == $slug ) {
+                $posts_columns["mrkvuamp_{$slug}_title"] = __( "{$activation} Title", 'mrkv-ua-marketplaces' );
+                // $posts_columns["mrkvuamp_{$slug}_cat_id"] = __( "{$activation} ID Category", 'mrkv-ua-marketplaces' );
+            }
         }
         return $posts_columns;
     }

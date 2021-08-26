@@ -19,7 +19,7 @@ class WCShopOfferVariable extends WCShopOffer {
         // Checkbox '{Marketplace} xml' custom field
         foreach ( $this->slug_activations as $slug  ) {
             $mrktplc_not_xml = get_post_meta( $id , "mrkvuamp_{$slug}_not_xml", true);
-            if ( $mrktplc_not_xml ) return;
+            if ( $mrktplc_not_xml && 'rozetka' == $slug ) return;
         }
 
         $this->_product = \wc_get_product( $id ); // Get variation product object
@@ -43,7 +43,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
                 $currencyId = $this->set_currency_id( $offer ); // XML tag <currencyId>
 
-                $categoryId = $this->set_category_id( $offer ); // XML tag <categoryId>
+                $categoryId = $this->set_category_id( $id, $offer ); // XML tag <categoryId>
 
                 $picture = $this->set_picture( $id, $offer, $variation_id ); // XML tag <picture>
 
@@ -88,7 +88,7 @@ class WCShopOfferVariable extends WCShopOffer {
         return $offer->addChild( 'currencyId', $this->get_wc_currency_id() );
     }
 
-    public function set_category_id($offer) // XML tag <categoryId>
+    public function set_category_id($id, $offer) // XML tag <categoryId>
     {
         return $offer->addChild( 'categoryId', $this->get_wc_category_id() );
     }

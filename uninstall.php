@@ -18,7 +18,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	die;
 }
 
-// Delete all added by the plugin WordPress options with `mrkv_uamrkpl_` prefix
+// Delete all WordPress options with `mrkv_uamrkpl_` prefix added by the plugin
 function mrkv_uamrkpl_delete_wp_options_prefixed( $prefix ) {
     global $wpdb;
     $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '{$prefix}%'" );

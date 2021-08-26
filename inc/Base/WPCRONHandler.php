@@ -34,7 +34,7 @@ class WPCRONHandler extends BaseController
                 $xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlname;
 
                 // Activate CRON-task for generation xml-прайс
-                if ( file_exists( $xml->xml_filepath ) ) {
+                if ( file_exists( $xml->xml_rozetka_filepath ) ) {
                     // add_filter( 'cron_schedules', array( $this, 'add_five_minutes_cron_interval' ) ); // For test CRON
                     add_action( 'admin_head', array( $this, 'activate_xml_update' ) );
                     add_action( 'mrkvuamp_update_xml_hook', array( $this, 'update_xml_exec' ) );
@@ -47,6 +47,7 @@ class WPCRONHandler extends BaseController
     {
         if( ! wp_next_scheduled( 'mrkvuamp_update_xml_hook' ) ) {
             wp_schedule_event( time(), 'daily', 'mrkvuamp_update_xml_hook' ); // For FREE-version
+            // wp_schedule_event( time(), 'five_minutes', 'mrkvuamp_update_xml_hook' ); // For test CRON
         }
     }
 
@@ -61,5 +62,12 @@ class WPCRONHandler extends BaseController
         $xml = $converter->array2xml( $mrkv_uamrkpl_shop_arr );
         exit;
     }
+
+    // public function add_five_minutes_cron_interval( $schedules ) { // For test CRON
+    //     $schedules['five_minutes'] = array(
+    //         'interval' => 300,
+    //         'display'  => esc_html__( 'Every Five Minutes' ), );
+    //     return $schedules;
+    // }
 
 }

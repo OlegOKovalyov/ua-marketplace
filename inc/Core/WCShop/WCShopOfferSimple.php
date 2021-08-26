@@ -26,7 +26,7 @@ class WCShopOfferSimple extends WCShopOffer {
 
             $currencyId = $this->set_currency_id( $offer ); // XML tag <currencyId>
 
-            $categoryId = $this->set_category_id( $offer ); // XML tag <categoryId>
+            $categoryId = $this->set_category_id( $id, $offer ); // XML tag <categoryId>
 
             $picture = $this->set_picture( $id, $offer ); // XML tag <picture>
 
@@ -67,7 +67,7 @@ class WCShopOfferSimple extends WCShopOffer {
         return $offer->addChild( 'currencyId', $this->get_wc_currency_id() );
     }
 
-    public function set_category_id($offer) // XML tag <categoryId>
+    public function set_category_id($id, $offer) // XML tag <categoryId>
     {
         return $offer->addChild( 'categoryId', $this->get_wc_category_id() );
     }

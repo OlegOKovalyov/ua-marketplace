@@ -43,22 +43,32 @@ class Promua extends BaseController
 			$args = array(
 				array(
 					'option_group'	=> 'mrkv_ua_promua_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_promua_shop_name',
+					'option_name'	=> 'mrkv_uamrkpl_promua_shop_name', // Назва магазину
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_promua_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_promua_company',
+					'option_name'	=> 'mrkv_uamrkpl_promua_company', // Назва компанії
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_promua_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_promua_main_maker',
+					'option_name'	=> 'mrkv_uamrkpl_promua_global_vendor', // Глобальний виробник
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_promua_option_group',
-					'option_name'	=> 'mrkv_uamrkpl_promua_brands',
+					'option_name'	=> 'mrkv_uamrkpl_promua_custom_vendor', // Бренди
+					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
+				),
+				array(
+					'option_group'	=> 'mrkv_ua_promua_option_group',
+					'option_name'	=> 'mrkv_uamrkpl_promua_vendor_by_attributes', // Атрибути в якості брендів
+					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
+				),
+				array(
+					'option_group'	=> 'mrkv_ua_promua_option_group',
+					'option_name'	=> 'mrkv_uamrkpl_promua_vendor_all_possibilities', // Метадані в якості брендів
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
 				)
 			);
@@ -106,25 +116,47 @@ class Promua extends BaseController
 				)
 			),
 			array(
-				'id'		=> 'mrkv_uamrkpl_promua_main_maker',
+				'id'		=> 'mrkv_uamrkpl_promua_global_vendor',
 				'title'		=> __( 'Глобальний виробник', 'mrkv-ua-marketplaces' ),
 				'callback'	=> array( $this->callbacks_promua, 'getGlobalVendor' ),
 				'page'		=> 'mrkv_ua_marketplaces_promua',
 				'section'	=> 'mrkvuamp_promua_section',
 				'args'		=> array(
-					'label_for' => 'mrkv_uamrkpl_promua_main_maker',
+					'label_for' => 'mrkv_uamrkpl_promua_global_vendor',
 					'class'		=> 'mrkv_uamrkpl_class',
 				)
 			),
 			array(
-				'id'		=> 'mrkv_uamrkpl_promua_setVendorNames',
+				'id'		=> 'mrkv_uamrkpl_promua_set_vendor_names',
 				'title'		=> __( 'Бренди', 'mrkv-ua-marketplaces' ),
 				'callback'	=> array( $this->callbacks_promua, 'setVendorNames' ),
 				'page'		=> 'mrkv_ua_marketplaces_promua',
 				'section'	=> 'mrkvuamp_promua_section',
 				'args'		=> array(
-					'label_for' => 'mrkv_uamrkpl_promua_brand_names',
-					'class'		=> 'mrkv_uamrkpl_class',
+					'label_for' => 'mrkv_uamrkpl_promua_set_vendor_names',
+					'class'		=> 'mrkv_uamrkpl_promua_set_vendor_names_class',
+				)
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_promua_vendor_by_attributes',
+				'title'		=> __( 'Атрибути в якості брендів', 'mrkv-ua-marketplaces' ),
+				'callback'	=> array( $this->callbacks_promua, 'setVendorByAttributes' ),
+				'page'		=> 'mrkv_ua_marketplaces_promua',
+				'section'	=> 'mrkvuamp_promua_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_promua_vendor_by_attributes',
+					'class'		=> 'mrkv_uamrkpl_promua_vendor_by_attributes_class',
+				)
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_promua_vendor_all_possibilities',
+				'title'		=> __( 'Метадані в якості брендів', 'mrkv-ua-marketplaces' ),
+				'callback'	=> array( $this->callbacks_promua, 'setVendorAllPossibilities' ),
+				'page'		=> 'mrkv_ua_marketplaces_promua',
+				'section'	=> 'mrkvuamp_promua_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_promua_vendor_all_possibilities',
+					'class'		=> 'mrkv_uamrkpl_promua_vendor_all_possibilities_class',
 				)
 			)
 		);

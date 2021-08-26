@@ -9,9 +9,7 @@ if ( ! $this->activated( 'mrkvuamp_rozetka_activation' ) ) return;
 $xml = new XMLController( 'rozetka' ); // Get xml-file URL and plugin uploads dir path
 $xml_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_rozetka_xmlname;
 $plugin_uploads_dir_path = $xml->plugin_uploads_dir_path;
-
-$wcShopController = new WCShopController(); // Get site total product quantity
-$site_total_product_qty = $wcShopController->site_total_product_qty;
+$site_total_product_qty = $xml->site_total_product_qty;
 
 ?>
 

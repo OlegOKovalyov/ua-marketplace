@@ -9,6 +9,7 @@ namespace Inc\Base;
 use \Inc\Base\BaseController;
 use \Inc\Core\WCShop\WCShopCollation;
 use \Inc\Core\XMLController;
+use \Inc\Core\WCShopPromuaController;
 
 class AjaxHandler extends BaseController
 {
@@ -17,6 +18,7 @@ class AjaxHandler extends BaseController
     {
 
         add_action( 'wp_ajax_mrkvuamp_collation_action', array( $this, 'mrkvuamp_collation_action' ) );
+        add_action( 'wp_ajax_mrkvuamp_promuaxml_action', array( $this, 'mrkvuamp_promuaxml_action' ) );
 
     }
 
@@ -45,11 +47,27 @@ class AjaxHandler extends BaseController
 
         // Create XML-price for marketplace Rozetka
         $converter = new \Inc\Core\XMLController( 'rozetka' );
-        $xml_filename = $converter->xml_filepath;
         $xml = $converter->array2xml( $mrkv_uamrkpl_shop_arr );
 
         wp_die();
 
+    }
+
+    public function mrkvuamp_promuaxml_action()
+    {
+        if ( ! check_ajax_referer( 'mrkv_uamrkpl_promuaxml_form_nonce' )){
+        	wp_die();
+        }
+
+        // Create WooCommerce internet-shop Object
+        $mrkv_uamrkpl_shop = new WCShopPromuaController('shop');
+        $mrkv_uamrkpl_shop_arr = (array) $mrkv_uamrkpl_shop;
+
+        // Create XML-price for marketplace PromUA
+        $converter = new \Inc\Core\XMLController( 'promua' );
+        $xml = $converter->array2promuaxml( $mrkv_uamrkpl_shop_arr );
+
+        wp_die();
     }
 
 }

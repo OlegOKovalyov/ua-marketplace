@@ -3,7 +3,8 @@ jQuery(document).ready(function(){
     // Rozetka tab
     // AJAX  handler of '#mrkv_uamrkpl_collation_form' Form in Rozetka tab
     var protocol = jQuery(location).attr('protocol'); // http or https
-    var host = jQuery(location).attr('host'); // example.com
+    var host = jQuery(location).attr('host');         // example.com
+    var siteTotalProductQty = mrkvuamp_script_vars.site_total_product_qty;
     if (location.search.indexOf('page=mrkv_ua_marketplaces_rozetka') !== -1) { // Only Rozetka tab
         jQuery( '#mrkv_uamrkpl_collation_form' ).on('submit', async function(event) {
             // Click 'Співставити' button event save in browser local starage
@@ -30,9 +31,9 @@ jQuery(document).ready(function(){
                     headers: { 'Clear-Site-Data': "cache" },
                     data: $formData,
                     cache: false,
-                    ifModified: true
-                });
-            }
+                    ifModified: true,
+                }); // jQuery.ajax
+            } // async function collateCategories($form, $formData)
 
             // Sweetalert2 success modal
             async function SweetAlert2Resolve() {

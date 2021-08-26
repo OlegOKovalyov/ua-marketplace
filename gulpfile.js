@@ -49,7 +49,9 @@ function scripts() {
 		'src/js/dashboardtab.js',
 		'src/js/rozetkalinks.js',
 		'src/js/rozetkasettings.js',
-		'src/js/rozetkacollation.js' // Пользовательские скрипты, использующие библиотеку, должны быть подключены в конце
+		'src/js/rozetkacollation.js', // Пользовательские скрипты, использующие библиотеку, должны быть подключены в конце
+		'src/js/promua.js',
+		'src/js/promuasettings.js'
 		])
 	.pipe(concat('mrkvmpscript.min.js')) // Конкатенируем в один файл
 	.pipe(uglify({

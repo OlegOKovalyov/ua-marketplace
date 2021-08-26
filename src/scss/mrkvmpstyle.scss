@@ -74,7 +74,8 @@
 }
 
 /* Last xml-file link */
-.mrkvuamp_collation_xml_link {
+.mrkvuamp_collation_xml_link,
+.mrkvuamp_promua_xml_link {
 	background-color: #fff;
 	padding: 1px;
 	max-width: 570px;
@@ -111,6 +112,7 @@ label[for^="mrkvuamp_rozetka_variation_image"] + .woocommerce-help-tip {
 
 /* Rozetka Quick Edit */
 .column-mrkvuamp_rozetka_title,
-.column-mrkvuamp_rozetka_cat_id {
+.column-mrkvuamp_rozetka_cat_id,
+.column-mrkvuamp_promua_title {
 	width: 11%;
 }
