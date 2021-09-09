@@ -60,7 +60,7 @@ $site_total_product_qty = $xml->site_total_product_qty;
                                 <?php $xml->last_xml_file_date();
                                     $xml_file_path = $plugin_uploads_dir_path . $xml->plugin_uploads_rozetka_xmlname;
                                     $xml_file_size = ( file_exists( $xml_file_path ) ) ? filesize( $xml_file_path ) : '';
-                                    $progBarCoef = ( $site_total_product_qty < 100 ) ? 1 : 2.3;
+                                    $progBarCoef = ( $site_total_product_qty < 100 ) ? 0.9 : 2;
                                 ?>
                                 <br><?php // xml-file processing progress bar ?>
                                 <progress id="mrkvuamp-progress-xml-upload" max="<?php echo \round( $site_total_product_qty * $progBarCoef ); ?>" value="0" style="width: 98%;"></progress>

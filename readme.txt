@@ -6,10 +6,7 @@ Tested up to: 5.7
 Stable tag: 1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-WC requires at least: 3.0
-WC tested up to: 5.5
-WooComerce requires at least: 3.0
-WooComerce tested up to: 5.5
+
 
 
 Синхронізуйтесь з українськими маркетплейсами швидко та зручно.
@@ -37,6 +34,9 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.3.1 =
+* [fix] виправлено створення xml-тегу param
 
 = 1.3 =
 * [new] доданий функціонал створення xml для PromUA

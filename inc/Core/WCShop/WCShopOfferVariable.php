@@ -143,16 +143,21 @@ class WCShopOfferVariable extends WCShopOffer {
 
     public function set_param($id, $offer) // XML tag <param>
     {
-        list( $param_labels, $param_values ) = $this->get_product_attributes( $id );
-        // Get product variation attributes
+        $param_labels = array();
+        $param_values = array();
+        $params = $this->_product->get_attributes();
         $variation_params = $this->variation->get_attributes();
-        foreach ( $variation_params as $key => $value ) {
-            $variation_param_label = wc_attribute_label( $key );
-            $variation_param_value = $this->variation->get_attribute( $key );
-            $param = $offer->addChild( 'param', $variation_param_value );
-            $param->addAttribute( 'name', $variation_param_label );
+
+        foreach ( $params as $key => $value ) {
+            if ( array_key_exists( $key, $variation_params  ) ) {   // Attributes used for variations
+                $param_labels[] = \wc_attribute_label( $key );
+                $param_values[] = $this->variation->get_attribute( $key );
+            } else {                                                // Other product attributes
+                $param_labels[] = \wc_attribute_label( $key );
+                $param_values[] = $this->_product->get_attribute( $key );
+                continue;
+            }
         }
-        // Get product attributes
         for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
             $param = $offer->addChild( 'param', $param_values[$i] );
             $param->addAttribute( 'name', $param_labels[$i] );

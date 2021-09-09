@@ -18,7 +18,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	die;
 }
 
-// Delete all WordPress options with `mrkv_uamrkpl_` prefix added by the plugin
+// Delete all added by the plugin WordPress options with `mrkv_uamrkpl_` prefix
 function mrkv_uamrkpl_delete_wp_options_prefixed( $prefix ) {
     global $wpdb;
     $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '{$prefix}%'" );
@@ -30,7 +30,7 @@ delete_option( 'mrkv_ua_marketplaces' );
 
 // Remove xml-files and plugin uploads directory
 $rozetkaXMLController = new XMLController( 'rozetka' );
-$rozetka_xml_file_path = $rozetkaXMLController->xml_filepath; // path to xml file
+$rozetka_xml_file_path = $rozetkaXMLController->xml_rozetka_filepath; // path to xml file
 $rozetka_plugin_uploads_dir_path = $rozetkaXMLController->plugin_uploads_dir_path; // path to plugin uploads directory
 
 // List of filenames located inside plugin uploads directory

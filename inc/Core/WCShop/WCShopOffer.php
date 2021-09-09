@@ -51,11 +51,8 @@ class WCShopOffer extends WCShopController {
         $params = $this->_product->get_attributes();
 
         foreach ( $params as $key => $value ) {
-            // Get only product (not variation) attributes
-            if ( ! $value->get_variation() ) {
-                $param_labels[] = wc_attribute_label( $key );
-                $param_values[] = $this->_product->get_attribute( $key );
-            }
+            $param_labels[] = \wc_attribute_label( $key );
+            $param_values[] = $this->_product->get_attribute( $key );
         }
         return [ $param_labels, $param_values ];
     }

@@ -83,10 +83,13 @@ jQuery(document).ready(function(){
                 headers: { 'Clear-Site-Data': "cache" },
                 type:'HEAD',
                 cache: false,
-                error: function() { //file not exists
-                    jQuery('.mrkvuamp_collation_xml_link').addClass('hidden');
+                error: function() { // file not exists or not clicked 'Співставити' button
+                    jQuery('.mrkvuamp_collation_xml_link').removeClass('hidden');
+                    if (!localStorage.getItem('mrkvuamp_collation_submit')) {
+                        jQuery('.mrkvuamp_collation_xml_link').addClass('hidden');
+                    }
                 },
-                success: function() { //file exists
+                success: function() { // file exists
                     jQuery('.mrkvuamp_collation_xml_link').removeClass('hidden');
                 }
             });
@@ -95,7 +98,6 @@ jQuery(document).ready(function(){
         // Progress bar handling
         var siteTotalProductQty = mrkvuamp_script_vars.site_total_product_qty;
         async function progressBarXMLupload(time){
-            localStorage.removeItem('mrkvuamp_collation_submit');
             var start = 0;
             var progressElement = document.getElementById('mrkvuamp-progress-xml-upload');
             var progBarHiddenMsg = document.getElementById('mrkvuamp_progbar_hidden_msg');
@@ -123,6 +125,7 @@ jQuery(document).ready(function(){
             elem.innerHTML = 'Ваш xml-прайс готовий. Перезавантажте сторінку і перейдіть за посиланням.';
             elem.classList.remove("blinking-message");
             elem.style.display = 'block';
+            localStorage.removeItem('mrkvuamp_collation_submit');
         }
 
         var mrkvuamp_collation_submit_e = localStorage.getItem('mrkvuamp_collation_submit');
@@ -130,8 +133,7 @@ jQuery(document).ready(function(){
             jQuery( '#mrkvuamp-progress-xml-upload' ).fadeOut(0);
         } else {
             jQuery( '#mrkvuamp-progress-xml-upload' ).fadeIn(500);
-            var progBarCoef = (siteTotalProductQty < 100) ? 1 : 2.3;
-            // progressBarXMLupload(Math.round(siteTotalProductQty * 2.3));
+            var progBarCoef = (siteTotalProductQty < 100) ? 0.9 : 2;
             progressBarXMLupload(Math.round(siteTotalProductQty * progBarCoef));
         }
 
