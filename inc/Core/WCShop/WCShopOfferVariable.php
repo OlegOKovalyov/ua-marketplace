@@ -145,7 +145,7 @@ class WCShopOfferVariable extends WCShopOffer {
     {
         $param_labels = array();
         $param_values = array();
-        $params = $this->_product->get_attributes();
+        $params = $this->_product->get_attributes();                // All product attributes
         $variation_params = $this->variation->get_attributes();
 
         foreach ( $params as $key => $value ) {

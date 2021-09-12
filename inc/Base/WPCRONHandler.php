@@ -62,7 +62,7 @@ class WPCRONHandler extends BaseController
         $xml = $converter->array2xml( $mrkv_uamrkpl_shop_arr );
         exit;
     }
-
+    
     // public function add_five_minutes_cron_interval( $schedules ) { // For test CRON
     //     $schedules['five_minutes'] = array(
     //         'interval' => 300,
