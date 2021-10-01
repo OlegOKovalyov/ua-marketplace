@@ -53,25 +53,20 @@ $site_total_product_qty = $xml->site_total_product_qty;
         <div id="mrkvuamp_main-configuration" class="link-pane active">
 
             <?php // Last xml-file link ?>
-                <div class="mrkvuamp_collation_xml_link hidden" >
-                    <form action="">
-                        <p>Посилання на
-                            <a  class="mrkvuamp_xml_link" target="_blank" href="<?php clearstatcache(); echo esc_url( $xml_fileurl ); clearstatcache(); ?>">останній згенерований xml</a>
-                                <?php $xml->last_xml_file_date();
-                                    $xml_file_path = $plugin_uploads_dir_path . $xml->plugin_uploads_rozetka_xmlname;
-                                    $xml_file_size = ( file_exists( $xml_file_path ) ) ? filesize( $xml_file_path ) : '';
-                                    $progBarCoef = ( $site_total_product_qty < 100 ) ? 0.9 : 2;
-                                ?>
-                                <br><?php // xml-file processing progress bar ?>
-                                <progress id="mrkvuamp-progress-xml-upload" max="<?php echo \round( $site_total_product_qty * $progBarCoef ); ?>" value="0" style="width: 98%;"></progress>
-                                <div class="hidden" id="mrkvuamp_progbar_hidden_msg" style="padding-left: 10px;"></div>
-                                <input type="hidden" name="mrkvuamp_xml_file_path" value="<?php echo sanitize_text_field( $xml_file_path ); ?>" />
-                                <input type="hidden" name="mrkvuamp_xml_file_size" value="<?php echo sanitize_text_field( $xml_file_size ); ?>" />
-                                <input type="hidden" name="mrkvuamp_site_total_product_qty" value="<?php echo sanitize_text_field( $site_total_product_qty ); ?>" />
-                        </p>
-                    </form>
-                </div>
-            <?php //endif; ?>
+            <div class="mrkvuamp_collation_xml_link" >
+                <form action="">
+                    <p>Посилання на
+                        <a  class="mrkvuamp_xml_link" target="_blank" href="<?php clearstatcache(); echo esc_url( $xml_fileurl ); clearstatcache(); ?>">останній згенерований xml</a>
+                            <?php $xml->last_xml_file_date();
+                                $xml_file_path = $plugin_uploads_dir_path . $xml->plugin_uploads_rozetka_xmlname;
+                                $xml_file_size = ( file_exists( $xml_file_path ) ) ? filesize( $xml_file_path ) : '';
+                                $progBarCoef = ( $site_total_product_qty < 100 ) ? 0.9 : 2;
+                            ?>
+                            <input type="hidden" name="mrkvuamp_xml_file_path" value="<?php echo sanitize_text_field( $xml_file_path ); ?>" />
+                            <input type="hidden" name="mrkvuamp_xml_file_size" value="<?php echo sanitize_text_field( $xml_file_size ); ?>" />
+                    </p>
+                </form>
+            </div>
 
             <form method="post" action="options.php">
 

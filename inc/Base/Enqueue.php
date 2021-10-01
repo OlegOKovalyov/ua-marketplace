@@ -43,13 +43,19 @@ class Enqueue extends BaseController
 		$xml_promua_fileurl = $xml->plugin_uploads_dir_url . $xml->plugin_uploads_promua_xmlname; // Get PromUA xml-file URL
 		$site_total_product_qty = $xml->site_total_product_qty; // Get site total product quantity
 
+		$ajaxHandler = new AjaxHandler();
+		$rozetka_xml_created_event = 0;
+		$rozetka_xml_created_event = $ajaxHandler->rozetka_collation_script_time;
+
 		wp_localize_script( 				// Add php variables for using in js-script:
 		    'morkvauamarketplacescript', 	// the handle of the 'morkvauamarketplacescript' script we have enqueued above
 		    'mrkvuamp_script_vars', 		// object name to access our PHP variables from in js-script
 		    array( 							// Register an array of variables we would like to use in js-script
 		        'rozetka_xml_path' => $xml_rozetka_fileurl,
 		        'promua_xml_path' => $xml_promua_fileurl,
-		        'site_total_product_qty' => $site_total_product_qty
+		        'site_total_product_qty' => $site_total_product_qty,
+				'rozetka_xml_created_event' => $rozetka_xml_created_event,
+		        'nonce' => wp_create_nonce('mrkv_uamrkpl_collation_form_nonce')
 		    )
 		);
 

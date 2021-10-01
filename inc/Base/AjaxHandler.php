@@ -13,19 +13,23 @@ use \Inc\Core\WCShopPromuaController;
 
 class AjaxHandler extends BaseController
 {
+    public $rozetka_collation_script_time;
 
     public function register()
     {
-
-        add_action( 'wp_ajax_mrkvuamp_collation_action', array( $this, 'mrkvuamp_collation_action' ) );
-        add_action( 'wp_ajax_mrkvuamp_promuaxml_action', array( $this, 'mrkvuamp_promuaxml_action' ) );
-
+        if( wp_doing_ajax() ) {
+            add_action( 'wp_ajax_mrkvuamp_collation_action', array( $this, 'mrkvuamp_collation_action_cb' ) );
+            add_action( 'wp_ajax_mrkvuamp_promuaxml_action', array( $this, 'mrkvuamp_promuaxml_action' ) );
+        }
     }
 
-    public function mrkvuamp_collation_action() {
-        if ( ! check_ajax_referer( 'mrkv_uamrkpl_collation_form_nonce' )){
+    public function mrkvuamp_collation_action_cb() {
+
+        if ( ! check_ajax_referer( 'mrkv_uamrkpl_collation_form_nonce', 'nonce' )) { // 'nonce' defined in Enqueue php-class
         	wp_die();
         }
+
+        $phpStart = microtime(true);
 
         if ( isset( $_REQUEST ) ) {
             $response = $_REQUEST;
@@ -49,8 +53,13 @@ class AjaxHandler extends BaseController
         $converter = new \Inc\Core\XMLController( 'rozetka' );
         $xml = $converter->array2xml( $mrkv_uamrkpl_shop_arr );
 
-        wp_die();
+        $phpEnd = microtime(true);
+        $execution_php_time = number_format($phpEnd - $phpStart, 2);
+        $this->rozetka_collation_script_time = $execution_php_time; // Save script time in php-class property
 
+        wp_send_json( array( 'rozetka_xml_created_event' => $execution_php_time ) ); // Return response: script time
+
+        wp_die();
     }
 
     public function mrkvuamp_promuaxml_action()
