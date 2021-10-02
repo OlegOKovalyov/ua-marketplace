@@ -153,11 +153,16 @@ class WCShopOfferVariable extends WCShopOffer {
                 $param_labels[] = \wc_attribute_label( $key );
                 $param_values[] = $this->variation->get_attribute( $key );
             } else {                                                // Other product attributes
-                $param_labels[] = \wc_attribute_label( $key );
+                if ( false !== strpos( $key, 'pa_' ) ) {
+                    $param_labels[] = \wc_attribute_label( $key );
+                } else {
+                    $param_labels[] = $value->get_name();
+                }
                 $param_values[] = $this->_product->get_attribute( $key );
                 continue;
             }
         }
+
         for ( $i = 0; $i < \sizeof( $param_values ) ; $i++ ) {
             $param = $offer->addChild( 'param', $param_values[$i] );
             $param->addAttribute( 'name', $param_labels[$i] );
