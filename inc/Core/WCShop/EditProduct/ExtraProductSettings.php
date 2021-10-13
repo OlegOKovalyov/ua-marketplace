@@ -30,7 +30,7 @@ class ExtraProductSettings {
         // Remove '{Marketplace} ID Category' fields if they have been installed before
         add_filter( 'manage_edit-product_columns', array( $this, 'remove_product_cat_id' ), 15, 1 ); // тимчасово
 
-        // Add marketplace tabs and field on 'Products' and 'Edit Product' admin pages
+        // Add marketplace tabs and fields on 'Products' and 'Edit Product' admin pages
         add_filter( 'woocommerce_product_data_tabs', array( $this, 'product_tab' ) );
         add_action( 'woocommerce_product_data_panels', array( $this, 'data_fields' ) );
         add_action( 'woocommerce_process_product_meta', array( $this, 'save_fields' ), 10, 2 );
@@ -63,15 +63,25 @@ class ExtraProductSettings {
             $slug =  \strtolower( $activation );
 
             if ( 'rozetka' == $slug ) {
-        		$mrkvuamp_not_xml = isset( $_POST["mrkvuamp_{$slug}_not_xml"] )
-                    ? sanitize_text_field( $_POST["mrkvuamp_{$slug}_not_xml"] ) : 0;
+                // '{Marketplace} xml' field
+        		$mrkvuamp_not_xml = isset( $_POST["mrkvuamp_{$slug}_not_xml"] ) ? sanitize_text_field( $_POST["mrkvuamp_{$slug}_not_xml"] ) : 0;
         		update_post_meta( $id, "mrkvuamp_{$slug}_not_xml", $mrkvuamp_not_xml );
+
+                // '{Marketplace} Variation ID' field
+        		update_post_meta( $id, "mrkvuamp_{$slug}_product_id", sanitize_text_field( $_POST["mrkvuamp_{$slug}_product_id"] ) );
+
+                // '{Marketplace} ID Category' field // Можливо буде повернуто у майбутньому
         		// update_post_meta( $id, "mrkvuamp_{$slug}_cat_id", sanitize_text_field( $_POST["mrkvuamp_{$slug}_cat_id"] ) );
+
+                // '{Marketplace} Image URL' field
         		update_post_meta( $id, "mrkvuamp_{$slug}_image", sanitize_text_field( $_POST["mrkvuamp_{$slug}_image"] ) );
+
+                // '{Marketplace} Description' field
         		update_post_meta( $id, "mrkvuamp_{$slug}_description", wp_filter_kses( $_POST["mrkvuamp_{$slug}_description"] )  );
             }
 
             if ( 'rozetka' == $slug || 'promua' == $slug ) {
+                // '{Marketplace} Title' field
                 update_post_meta( $id, "mrkvuamp_{$slug}_title", sanitize_text_field( $_POST["mrkvuamp_{$slug}_title"] ) );
             }
         }
@@ -95,6 +105,15 @@ class ExtraProductSettings {
                     'default'       => '0',
                     'desc_tip'      => false,
                 ) );
+
+                // '{Marketplace} ID' field
+                woocommerce_wp_text_input ( array(
+                    'id'      => 'mrkvuamp_' . $slug . '_product_id',
+                    'value'   => get_post_meta( get_the_ID(), 'mrkvuamp_' . $slug . '_product_id', true ),
+                    'label'   => __( "{$activation} ID", 'mrkv-ua-marketplaces' ),
+                    'desc_tip' => true,
+                    'description' => __( 'Якщо ввести значення, саме воно потрапить в xml замість id товару, який встановлений на сайті.', 'mrkv-ua-marketplaces' ),
+                ) );
             }
 
             if ( 'rozetka' == $slug || 'promua' == $slug ) {
@@ -109,7 +128,7 @@ class ExtraProductSettings {
             }
 
             if ( 'rozetka' == $slug ) {
-            	// '{Marketplace} ID Category' fields
+            	// '{Marketplace} ID Category' fields // Можливо буде повернуто у майбутньому
              	// woocommerce_wp_text_input( array(
             	// 	'id' => 'mrkvuamp_' . $slug . '_cat_id',
             	// 	'value'   => get_post_meta( get_the_ID(), 'mrkvuamp_' . $slug . '_cat_id', true ),
@@ -118,7 +137,7 @@ class ExtraProductSettings {
             	// 	'description' => __( "Введіть бажаний номер категорії з сайту {$activation}.", 'mrkv-ua-marketplaces' ),
             	// ) );
 
-            	// '{Marketplace} image' fields
+            	// '{Marketplace} image URL' fields
                 echo '<input id="mrkvuamp_imgurl_btn" type="button" class="button" value="Image URL">';
                 woocommerce_wp_text_input ( array(
                     'id'      => 'mrkvuamp_' . $slug . '_image',

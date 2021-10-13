@@ -169,7 +169,7 @@ jQuery(document).ready(function(){
         }
 
         function showProgressBarFinalMsg(elem) {
-            elem.innerHTML = 'Ваш xml-прайс готовий. Перезавантажте сторінку і перейдіть за посиланням.';
+            elem.innerHTML = 'Ваш xml-прайс майже готовий. Після сповіщення перезавантажте сторінку і перейдіть за посиланням.';
             elem.classList.remove("blinking-message");
             elem.style.display = 'block';
         }

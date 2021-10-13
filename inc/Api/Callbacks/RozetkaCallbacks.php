@@ -104,6 +104,7 @@ class RozetkaCallbacks extends BaseController
         for( $j = 0; $j < sizeof( $vendor_values ); $j++) {
             echo '<option ' . $selected_vendors[$j] . ' value="' . $vendor_keys[$j] . '">' . $vendor_values[$j] . '</option>';
         }
+        echo '</select></form>';
     }
 
     public function setVendorAllPossibilities()
@@ -145,7 +146,7 @@ class RozetkaCallbacks extends BaseController
             echo '<option ' . $add_selected_html_attrs[$j] . ' value="' . $all_possible_vendor_keys[$j] . '">' . $all_possible_vendor_keys[$j] . '</option>';
             $index = $j;
         }
-        echo '</form>';
+        echo '</select></form>';
     }
 
 }

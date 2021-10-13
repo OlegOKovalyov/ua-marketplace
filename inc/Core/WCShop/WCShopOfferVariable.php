@@ -17,7 +17,8 @@ class WCShopOfferVariable extends WCShopOffer {
     public function set_variable_offer($id, $offers)
     {
         // Checkbox '{Marketplace} xml' custom field
-        foreach ( $this->slug_activations as $slug  ) {
+        foreach ( $this->activations as $activation  ) {
+            $slug =  \strtolower( $activation );
             $mrktplc_not_xml = get_post_meta( $id , "mrkvuamp_{$slug}_not_xml", true);
             if ( $mrktplc_not_xml && 'rozetka' == $slug ) return;
         }
@@ -108,16 +109,17 @@ class WCShopOfferVariable extends WCShopOffer {
     {
         foreach ( $this->activations as $activation  ) {
             $slug =  \strtolower( $activation );
-            $marketplace_title = get_post_meta( $id, "mrkvuamp_{$slug}_title", true );
-            $variation_name = $variation->get_name();
+            $marketplace_title = get_post_meta( $id, "mrkvuamp_{$slug}_title", true ); // Get custom variation title
+            $variation_name = $variation->get_name(); // Get product variation name with attribute variation names
 
             if ( empty( $marketplace_title ) ) {
-                $product_title = str_replace( array( '-', ',' ), '', $variation_name );
+                $product_title = $variation_name;
             }
 
             if ( ! empty( $marketplace_title ) ) {
                 $product_title = $marketplace_title;
-                $product_title .= str_replace( ',','', substr( $variation_name, strpos( $variation_name, "-" ) + 1 ) );
+                // Add attribute variations names through hyphen
+                $product_title .= ' -' . substr( $variation_name, strpos( $variation_name, "-" ) + 1 );
             }
 
             return $product_title;
@@ -126,7 +128,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
     public function set_variable_name($id, $offer, $variation) // XML tag <name>
     {
-        $name = str_replace( array( '-', ',' ), '', $variation->get_name() );
+        $name = $this->get_variable_product_title( $id, $variation );
         return $offer->addChild( 'name', $name );
     }
 
