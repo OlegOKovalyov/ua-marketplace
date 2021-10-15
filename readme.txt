@@ -35,6 +35,9 @@ https://youtu.be/CYhov5nuET4
 
 == Що нового? ==
 
+= 1.3.8 =
+* [fix] прибрані поля Rozetka ID та Rozetka Variation ID
+
 = 1.3.7 =
 * [fix] виправлено формування назви варіації варіативного товару
 

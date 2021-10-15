@@ -58,7 +58,6 @@ class WCShopOfferSimple extends WCShopOffer {
     public function set_price($offer) // XML tag <price>
     {
         $price = $this->_product->get_regular_price();
-        $price = apply_filters('mrkvuamp_after_get_regular_price', $price );
         return $offer->addChild( 'price', $price );
     }
 

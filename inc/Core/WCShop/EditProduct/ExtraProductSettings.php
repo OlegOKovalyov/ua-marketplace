@@ -105,15 +105,6 @@ class ExtraProductSettings {
                     'default'       => '0',
                     'desc_tip'      => false,
                 ) );
-
-                // '{Marketplace} ID' field
-                woocommerce_wp_text_input ( array(
-                    'id'      => 'mrkvuamp_' . $slug . '_product_id',
-                    'value'   => get_post_meta( get_the_ID(), 'mrkvuamp_' . $slug . '_product_id', true ),
-                    'label'   => __( "{$activation} ID", 'mrkv-ua-marketplaces' ),
-                    'desc_tip' => true,
-                    'description' => __( 'Якщо ввести значення, саме воно потрапить в xml замість id товару, який встановлений на сайті.', 'mrkv-ua-marketplaces' ),
-                ) );
             }
 
             if ( 'rozetka' == $slug || 'promua' == $slug ) {

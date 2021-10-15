@@ -137,6 +137,7 @@ jQuery(document).ready(function(){
                     if (!localStorage.getItem('mrkvuamp_collation_submit')) {
                         jQuery('.mrkvuamp_progress_bar').addClass('hidden');
                     }
+                    jQuery('.mrkvuamp_collation_xml_link').addClass('hidden');
                 }
             });
         }

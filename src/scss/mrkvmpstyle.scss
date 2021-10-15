@@ -102,11 +102,12 @@
 	display: none;
 }
 
-/* `Rozetka Variation Image` field on a variation dropdown settings Edit Product admin page */
-label[for^="mrkvuamp_rozetka_variation_image"] + .woocommerce-help-tip {
+/* `{Marketplace} Variation ID, Image URL` fields on a variation dropdown settings Edit Product admin page */
+label[for^="mrkvuamp_rozetka_variation_image"] + .woocommerce-help-tip, 		// Rozetka Variation Image URL
+label[for^="mrkvuamp_promua_variation_image"] + .woocommerce-help-tip {			// PromUA Variation Image URL
 	float: right;
 }
-.mrkvuamp-full-width {
+.mrkvuamp-full-width { // {Marketplace} Variation Image URL width
 	width: 100% !important;
 }
 

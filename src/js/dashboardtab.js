@@ -1,13 +1,6 @@
 if (location.search.indexOf('page=mrkv_ua_marketplaces') !== -1) { // Only Dashboard tab
     jQuery(document).ready(function(){
 
-        // Make PromUa checkbox and 'Зберегти зміни' button disabled when 'Rozetka' checkbox is checked
-        // jQuery( '#mrkvuamp_promua_activation' ).attr('disabled', 'disabled');
-        // if ( jQuery( '#mrkvuamp_rozetka_activation' ).prop( "checked" ) ) {
-        //     jQuery( '#mrkvuamp_dashboard_submit' ).attr('disabled', 'disabled');
-        // }
-        // jQuery( '.promua_activation_class label' ).css('color', 'gray');
-
         // Copy xml content as string to browser Clipboard with 'Скопіювати' button on Dashboard tab
         jQuery( '.mrkvuamp_xml_link_copy' ).on('click', function(){
 
@@ -49,11 +42,17 @@ if (location.search.indexOf('page=mrkv_ua_marketplaces') !== -1) { // Only Dashb
             }
         });
 
-        // remove Dashboard subtitle and 'Зберегти зміни' button when all checkboxes checked
+        // Remove Dashboard subtitle and 'Зберегти зміни' button when all checkboxes checked
         if (marketplaces_checked_count == checkboxes_qty) {
             jQuery('.dashboard-subtitle').css("display", "none");
             jQuery('#mrkvuamp_dashboard_submit').css("display", "none");
         }
+
+        // Remove Dashboard notice with 'Dismiss' button click
+        jQuery('#mrkvuamp_dashboard_dismiss').on("click", function () {
+            jQuery('#mrkvuamp_dashboard_notice').fadeOut(500);
+            document.cookie = "mrkvuamp_dashboard_notice=dismissed";
+        })
 
     }); // ready()
 

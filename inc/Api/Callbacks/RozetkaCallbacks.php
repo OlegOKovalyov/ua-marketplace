@@ -32,7 +32,7 @@ class RozetkaCallbacks extends BaseController
         $value = esc_attr( get_option( 'mrkv_uamrkpl_rozetka_company' ) );
         echo '<input type="text" class="regular-text" id="mrkv_uamrkpl_rozetka_company"
         name="mrkv_uamrkpl_rozetka_company" value="'. $value .'" placeholder="Введіть назву компанії">';
-        echo '<div class="blank-block"></dive>';
+        echo '<div class="blank-block"></div>';
     }
 
     public function getGlobalVendor()
