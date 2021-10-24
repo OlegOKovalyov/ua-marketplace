@@ -65,7 +65,7 @@ class WCShopOfferVariable extends WCShopOffer {
         $offer = $offers->addChild( 'offer' );
         $offer->addAttribute( 'group_id', $id );
         $offer->addAttribute( 'id', $variation_id );
-        $is_available = $this->get_product_stock_quantity( $id, $offer, $this->variation ) ? 'true' : 'false';
+        $is_available = $this->variation->is_in_stock() ? 'true' : 'false';
         $offer->addAttribute( 'available', $is_available );
         return $offer;
     }
@@ -172,8 +172,14 @@ class WCShopOfferVariable extends WCShopOffer {
 
     public function set_stock_quantity($id, $offer, $offers) // XML tag <stock_quantity>
     {
-        $quantity = $this->get_product_stock_quantity( $id, $offers, $this->_product );
-        return $offer->addChild( 'stock_quantity', $quantity );
+        $is_in_stock = $this->variation->is_in_stock();
+        $stock_quantity = $this->variation->get_stock_quantity() ?? 0;
+
+        if ( 0 === $stock_quantity && $is_in_stock ) {
+            return $offer->addChild( 'stock_quantity', 1 );
+        }
+
+        return $offer->addChild( 'stock_quantity', $stock_quantity );
     }
 
     // Create GET parameters for product variation URLs

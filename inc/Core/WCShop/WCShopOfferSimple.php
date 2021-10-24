@@ -45,7 +45,8 @@ class WCShopOfferSimple extends WCShopOffer {
     {
         $offer = $offers->addChild( 'offer' );
         $offer->addAttribute('id', $id);
-        $is_available = $this->get_product_stock_quantity( $id, $offer ) ? 'true' : 'false';
+        $this->_product = \wc_get_product( $id ); // Get product object from collation list
+        $is_available = $this->_product->is_in_stock() ? 'true' : 'false';
         $offer->addAttribute( 'available', $is_available );
         return $offer;
     }
@@ -121,8 +122,14 @@ class WCShopOfferSimple extends WCShopOffer {
 
     public function set_stock_quantity($id, $offer, $offers) // XML tag <stock_quantity>
     {
-        $quantity = $this->get_product_stock_quantity( $id, $offers );
-        return $offer->addChild( 'stock_quantity', $quantity );
+        $is_in_stock = $this->_product->is_in_stock();
+        $stock_quantity = $this->_product->get_stock_quantity() ?? 0;
+
+        if ( 0 === $stock_quantity && $is_in_stock ) {
+            return $offer->addChild( 'stock_quantity', 1 );
+        }
+
+        return $offer->addChild( 'stock_quantity', $stock_quantity );
     }
 
 }

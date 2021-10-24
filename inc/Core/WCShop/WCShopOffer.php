@@ -210,27 +210,4 @@ class WCShopOffer extends WCShopController {
         return $wc_shop->currencies[0];
     }
 
-    // Get stock quantity for <stock_quantity> xml-tag
-    // Uses for getting 'available' attribute for <offer> xml-tag
-    public function get_product_stock_quantity($id, $offers)
-    {
-        $this->_product = \wc_get_product( $id ); // Get product object from collation list
-
-        $is_manage_stock = $this->_product->get_manage_stock();
-        $stock_status = $this->_product->get_stock_status();
-        $stock_qty = $this->_product->get_stock_quantity();
-
-        if ( ! $is_manage_stock ) { // If manage_stock == false
-
-            if ( 'instock' == $stock_status ) {
-                return 1;
-            }
-            return 0;
-        }
-        if ( $stock_qty > 0) { // If manage_stock == true
-            return $stock_qty;
-        }
-        return 0;
-    }
-
 }

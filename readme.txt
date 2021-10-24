@@ -3,7 +3,7 @@ Contributors: bandido, olegkovalyov
 Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
 Tested up to: 5.8
-Stable tag: 1.3.9
+Stable tag: 1.3.10
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,9 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.3.10 =
+* [new] змінений алгоритм визначення атрибуту available і тегу stock_quantity
 
 = 1.3.9 =
 * [fix] відновлена CRON-задача для формування xml для Rozetka
