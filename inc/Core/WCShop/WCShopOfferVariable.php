@@ -5,6 +5,7 @@
 
 namespace Inc\Core\WCShop;
 
+use \Inc\Base\BaseController;
 use \Inc\Core\WCShopController;
 use \Inc\Core\WCShop\WCShopOffer;
 
@@ -106,8 +107,10 @@ class WCShopOfferVariable extends WCShopOffer {
 
     public function get_variable_product_title($id, $variation) // XML tag <name>
     {
-        foreach ( $this->activations as $activation  ) {
-            $slug =  \strtolower( $activation );
+        $baseController = new BaseController();
+        $this->slug_activations = $baseController->slug_activations;
+
+        foreach ( $this->slug_activations as $slug  ) {
             $marketplace_title = get_post_meta( $id, "mrkvuamp_{$slug}_title", true ); // Get custom variation title
             $variation_name = $variation->get_name(); // Get product variation name with attribute variation names
 
@@ -117,7 +120,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
             if ( ! empty( $marketplace_title ) ) {
                 $product_title = $marketplace_title;
-                // Add attribute variations names through hyphen
+                // Add attribute variations names to custom variation title through hyphen
                 $product_title .= ' -' . substr( $variation_name, strpos( $variation_name, "-" ) + 1 );
             }
 
