@@ -45,7 +45,7 @@ class WCShopOfferSimple extends WCShopOffer {
     {
         $offer = $offers->addChild( 'offer' );
         $offer->addAttribute('id', $id);
-        $this->_product = \wc_get_product( $id ); // Get product object from collation list
+        $this->_product = \wc_get_product( $id ); // Get product object
         $is_available = $this->_product->is_in_stock() ? 'true' : 'false';
         $offer->addAttribute( 'available', $is_available );
         return $offer;

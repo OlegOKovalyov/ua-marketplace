@@ -33,7 +33,7 @@ class Enqueue extends BaseController
 
 		$ajaxHandler = new AjaxHandler();
 		$rozetka_xml_created_event = 0;
-		$rozetka_xml_created_event = $ajaxHandler->rozetka_collation_script_time; // Get PHP execution ttim value
+		$rozetka_xml_created_event = $ajaxHandler->rozetka_collation_script_time; // Get PHP execution time value
 
 		wp_localize_script( 				// Add php variables for using in js-script:
 		    'morkvauamarketplacescript', 	// - the handle of the 'morkvauamarketplacescript' script we have enqueued above

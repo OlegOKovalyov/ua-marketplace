@@ -35,6 +35,9 @@ https://youtu.be/CYhov5nuET4
 
 == Що нового? ==
 
+= 1.3.11 =
+* [new] змінений UI створення xml для PromUA
+
 = 1.3.10 =
 * [new] змінений алгоритм визначення атрибуту available і тегу stock_quantity
 

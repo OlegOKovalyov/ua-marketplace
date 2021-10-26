@@ -33,7 +33,7 @@ require_once( 'dashboard-header.php' );
                         <span class="mrkvuamp_xml_link_copy button">Скопіювати</span>
                     <?php else : ?>
                         <div class="nav">
-                            <button onclick="location.href='?page=mrkv_ua_marketplaces_<?php echo strtolower($marketplace); ?>'" type="button" class="btn">
+                            <button onclick="location.href='?page=mrkv_ua_marketplaces_<?php echo strtolower($marketplace); ?>'" type="button" class="button">
                               <span class="">Налаштувати</span>
                             </button>
                         </div>
