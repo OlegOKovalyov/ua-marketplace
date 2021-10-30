@@ -5,8 +5,8 @@
 
 namespace Inc\Core\WCShop;
 
-use \Inc\Core\WCShopController;
 use \Inc\Base\BaseController;
+use \Inc\Core\WCShopController;
 
 class WCShopOffer extends WCShopController {
 

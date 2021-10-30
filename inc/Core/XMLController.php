@@ -7,9 +7,9 @@ namespace Inc\Core;
 
 use \Inc\Base\BaseController;
 use \Inc\Core\WCShopController;
-use \Inc\Core\WCShop\WCShopOffer;
 use \Inc\Core\WCShopPromuaController;
-use \Inc\Core\WCShop\WCShopPromuaOffer;
+use \Inc\Core\WCShop\WCShopOffer;
+use \Inc\Core\WCShop\WCShopPromua\WCShopPromuaOffer;
 
 require_once ('SimpleXMLElementExtended.php');
 

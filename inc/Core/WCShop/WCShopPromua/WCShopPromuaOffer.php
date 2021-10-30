@@ -3,12 +3,27 @@
  * @package 	MrkvUAMmarketplaces
  */
 
-namespace Inc\Core\WCShop;
+namespace Inc\Core\WCShop\WCShopPromua;
 
 use \Inc\Base\BaseController;
 use \Inc\Core\WCShopPromuaController;
 
 class WCShopPromuaOffer extends WCShopPromuaController {
+
+    public $_product;
+
+    public $product_type;
+
+    public $activations = array();
+
+    public $slug_activations = array();
+
+    public function __construct()
+    {
+        $baseController = new BaseController();
+        $this->activations = $baseController->activations;
+        $this->slug_activations = $baseController->slug_activations;
+    }
 
     // Get WooCommerce category id for <categoryId> xml-tag
     public function get_wc_promua_category_id($id)
@@ -37,6 +52,13 @@ class WCShopPromuaOffer extends WCShopPromuaController {
         if ( 'variable' == $this->product_type ) {
             $wcShopOfferVariable->set_variable_offer( $id, $offers );
         }
+    }
+
+    // Get currency value (UAH, USD, EUR, RUR) attribute for <currencyId> xml-tag
+    public function get_wc_currency_id()
+    {
+        $wc_shop = new WCShopPromuaController();
+        return $wc_shop->currencies[0];
     }
 
     // Get product Title for <name> xml-tag
@@ -101,6 +123,19 @@ class WCShopPromuaOffer extends WCShopPromuaController {
                 return ' ';
             }
         }
+    }
+
+    // Get product description for <description> xml-tag
+    public function get_product_description($id)
+    {
+        $this->_product = \wc_get_product( $id ); // Get product object from collation list
+        $description = $this->_product->get_description();
+        foreach ( $this->slug_activations as $slug  ) {
+            // Description from '{Marketplace} Description' custom field
+            $mrktplc_description = get_post_meta( $id , "mrkvuamp_{$slug}_description", true );
+            if (  ! empty( $mrktplc_description ) ) $description = $mrktplc_description;
+        }
+        return $description;
     }
 
 }

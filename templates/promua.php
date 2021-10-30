@@ -55,7 +55,7 @@ $site_total_product_qty = $xml->site_total_product_qty;
                              <?php $xml->last_promuaxml_file_date();
                                  $xml_file_path = $plugin_uploads_dir_path . $xml->plugin_uploads_promua_xmlname;
                                  $xml_file_size = ( file_exists( $xml_file_path ) ) ? filesize( $xml_file_path ) : '';
-                                 $progBarCoef = ( $site_total_product_qty < 100 ) ? 1.2 : 3.7;
+                                 $progBarCoefPromua = ( $site_total_product_qty < 100 ) ? 1.2 : 3.7;
                              ?>
                              <input type="hidden" name="mrkvuamp_xml_file_path" value="<?php echo sanitize_text_field( $xml_file_path ); ?>" />
                              <input type="hidden" name="mrkvuamp_xml_file_size" value="<?php echo sanitize_text_field( $xml_file_size ); ?>" />
@@ -81,7 +81,7 @@ $site_total_product_qty = $xml->site_total_product_qty;
 
             <div class="mrkvuamp_promua_progress_bar hidden"><?php // PromUA xml-file processing progress bar ?>
                 <form action="">
-                    <progress id="mrkvuamp-progress-xml-upload-promua" max="<?php echo \round( $site_total_product_qty * $progBarCoef ); ?>" value="0" style="width: 37%;"></progress>
+                    <progress id="mrkvuamp-progress-xml-upload-promua" max="<?php echo \round( $site_total_product_qty * $progBarCoefPromua ); ?>" value="0" style="width: 37%;"></progress>
                     <div class="hidden" id="mrkvuamp_progbar_hidden_msg" style="padding-left: 10px;"></div>
                     <input type="hidden" name="mrkvuamp_site_total_product_qty" value="<?php echo sanitize_text_field( $site_total_product_qty ); ?>" />
                 </form>

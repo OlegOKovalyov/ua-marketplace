@@ -5,11 +5,10 @@
 
 namespace Inc\Core;
 
-// use \Inc\Core\Marketplaces\FactoryAbstractAPI;
-// use \Inc\Core\Marketplaces\FactoryAPI;
-use \Inc\Core\WCShopController;
+use \Inc\Core\Marketplaces\FactoryAbstractAPI;
+use \Inc\Core\Marketplaces\FactoryAPI;
 
-class WCShopPromuaController extends WCShopController {
+class WCShopPromuaController {
 
     public $name;
 

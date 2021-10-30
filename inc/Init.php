@@ -35,6 +35,7 @@ final class Init
 			Core\WCShop\EditProduct\ExtraVariationSettings::class,
 			Core\WCShop\EditProduct\QuickEditProductSettings::class,
 
+			// Rozetka
 			Core\WCShopController::class,
 			Core\WCShop\WCShopCollation::class,
 			Core\WCShop\WCShopOffer::class,
@@ -45,9 +46,9 @@ final class Init
 
 			// PromUA
 			Core\WCShopPromuaController::class,
-			Core\WCShop\WCShopPromuaOffer::class,
-			Core\WCShop\WCShopPromuaOfferSimple::class,
-			Core\WCShop\WCShopPromuaOfferVariable::class,
+			Core\WCShop\WCShopPromua\WCShopPromuaOffer::class,
+			Core\WCShop\WCShopPromua\WCShopPromuaOfferSimple::class,
+			Core\WCShop\WCShopPromua\WCShopPromuaOfferVariable::class,
 
 			Core\Marketplaces\FactoryAPI::class,
 			Core\Marketplaces\APIs\RozetkaAPI::class

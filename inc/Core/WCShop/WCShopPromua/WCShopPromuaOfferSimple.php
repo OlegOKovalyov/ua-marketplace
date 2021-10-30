@@ -3,13 +3,14 @@
  * @package 	MrkvUAMmarketplaces
  */
 
-namespace Inc\Core\WCShop;
+namespace Inc\Core\WCShop\WCShopPromua;
 
 use \Inc\Core\WCShopPromuaController;
-use \Inc\Core\WCShop\WCShopPromuaOffer;
-use \Inc\Core\WCShop\WCShopOfferVariable;
+use \Inc\Core\WCShop\WCShopOfferSimple; // Видалити пізніше
+// use \Inc\Core\WCShop\WCShopPromua\WCShopPromuaOffer; // Додати пізніше
 
-class WCShopPromuaOfferVariable extends WCShopOfferVariable {
+class WCShopPromuaOfferSimple extends WCShopOfferSimple {
+// class WCShopPromuaOfferSimple extends WCShopPromuaOffer { // Переробити підзніше
 
     public $wcShopPromuaOffer;
 
@@ -25,7 +26,7 @@ class WCShopPromuaOfferVariable extends WCShopOfferVariable {
 
     public function set_stock_quantity($id, $offer, $offers) // XML tag <available>
     {
-        $stock_status = $this->variation->get_stock_status();
+        $stock_status = $this->_product->get_stock_status();
         if ( 'instock' == $stock_status ) {
             $availability = 'true';
         }
@@ -37,6 +38,11 @@ class WCShopPromuaOfferVariable extends WCShopOfferVariable {
         }
 
         return $offer->addChild( 'available', $availability );
+    }
+
+    public function set_name($id, $offer) // XML tag <name>
+    {
+        return $offer->addChild( 'name', $this->wcShopPromuaOffer->get_product_title( $id ) );
     }
 
     public function set_vendor($id, $offer) // XML tag <vendor>
