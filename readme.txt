@@ -3,7 +3,7 @@ Contributors: bandido, olegkovalyov
 Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
 Tested up to: 5.8
-Stable tag: 1.3.13
+Stable tag: 1.3.14
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,9 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.3.14 =
+* [new] додане нове налаштування Мова xml-тегів прайсу
 
 = 1.3.13 =
 * [new] змінена структура тек для PromUA

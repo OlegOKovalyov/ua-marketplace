@@ -61,6 +61,16 @@ class WCShopPromuaOffer extends WCShopPromuaController {
         return $wc_shop->currencies[0];
     }
 
+    // Get product image URL for <picture> xml-tag
+    public function get_product_image_urls($id)
+    {
+        $image_urls = array();
+        $gallery_image_urls = array();
+        $image_id  = $this->_product->get_image_id(); // Get main product image id
+        $image_urls[0] = wp_get_attachment_image_url( $image_id, 'full' );
+        return \array_merge( $image_urls, $gallery_image_urls );
+    }
+
     // Get product Title for <name> xml-tag
     public function get_product_title($id)
     {

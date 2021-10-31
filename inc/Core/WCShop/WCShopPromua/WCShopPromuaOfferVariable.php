@@ -105,7 +105,7 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
 
     public function set_picture($id, $offer, $variation_id) // XML tag <picture>
     {
-        $image_urls = $this->get_product_image_urls( $id, $variation_id );
+        $image_urls = $this->get_variable_image_urls( $id, $variation_id );
         if ( \is_array( $image_urls ) && ! empty( $image_urls ) ) {
             foreach ( $image_urls as $key => $value ) {
                 if ( empty( $value ) ) continue;
@@ -114,20 +114,21 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
         }
     }
 
-    // Get product image URLs for <picture> xml-tag
-    public function get_product_image_urls($id)
+    // Get variable image URLs for <picture> xml-tag
+    public function get_variable_image_urls($id, $variation_id)
     {
-        $image_urls = array();
-        $image_id  = $this->_product->get_image_id(); // Get main product image id
-        $image_urls[0] = wp_get_attachment_image_url( $image_id, 'full' );
-
+        // Get product image urls
+        $product_image_urls = array();
+        $product_image_urls = $this->get_product_image_urls( $id );
+        // Get variation image urls
+        $variation_image_urls = array();
         foreach ( $this->slug_activations as $slug  ) {
-            // Image from '{Marketplace} Image URL' custom field
-            if (  ! empty( get_post_meta( $id , "mrkvuamp_{$slug}_image", true) ) ) {
-                $image_urls[0] = get_post_meta( $id , "mrkvuamp_{$slug}_image", true);
+            if (  ! empty( get_post_meta( $variation_id , "mrkvuamp_{$slug}_variation_image", true) ) ) {
+                $variation_image_urls[0] = get_post_meta( $variation_id , "mrkvuamp_{$slug}_variation_image", true);
+                $product_image_urls[0] = $variation_image_urls[0];
             }
         }
-        return $image_urls;
+        return $product_image_urls;
     }
 
     public function set_variable_name($id, $offer, $variation) // XML tag <name>

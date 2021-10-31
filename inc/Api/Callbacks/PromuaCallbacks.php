@@ -64,7 +64,7 @@ class PromuaCallbacks extends BaseController
             echo '<option '. $addSelected[$i] . ' value="' . $vendor_values[$i] . '">' . $vendorTypeChoice[$i] . '</option>';
         }
         echo '</select>';
-        echo '<span>' . __(' Оберіть варіант, що формує бренди товарів на вашому сайті.', 'mrkv-ua-marketplaces' ).'</span>';
+        echo '<p class="mrkv-font-italic">' . __(' Оберіть варіант, що формує бренди товарів на вашому сайті.', 'mrkv-ua-marketplaces' ).'</p>';
     }
 
     public function setVendorByAttributes()

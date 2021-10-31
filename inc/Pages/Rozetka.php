@@ -53,6 +53,11 @@ class Rozetka extends BaseController
 				),
 				array(
 					'option_group'	=> 'mrkv_ua_rozetka_option_group',
+					'option_name'	=> 'mrkv_uamrkpl_rozetka_xml_tags_lang', // Мова xml-тегів прайсу
+					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
+				),
+				array(
+					'option_group'	=> 'mrkv_ua_rozetka_option_group',
 					'option_name'	=> 'mrkv_uamrkpl_rozetka_global_vendor', // Глобальний виробник
 					'callback'		=> array( $this->callbacks_rozetka, 'optionGroup' )
 				),
@@ -113,6 +118,17 @@ class Rozetka extends BaseController
 				'args'		=> array(
 					'label_for' => 'mrkv_uamrkpl_rozetka_company',
 					'class'		=> 'mrkv_uamrkpl_class',
+				)
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_rozetka_xml_tags_lang',
+				'title'		=> __( 'Мова xml-тегів прайсу', 'mrkv-ua-marketplaces' ),
+				'callback'	=> array( $this->callbacks_rozetka, 'setRozetkaXmlTagsLang' ),
+				'page'		=> 'mrkv_ua_marketplaces_rozetka',
+				'section'	=> 'mrkvuamp_rozetka_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_rozetka_xml_tags_lang',
+					'class'		=> 'mrkv_uamrkpl_rozetka_xml_tags_lang_class',
 				)
 			),
 			array(

@@ -18,11 +18,17 @@ class WCShopOffer extends WCShopController {
 
     public $slug_activations = array();
 
+    public $xml_tag_name;
+
+    public $xml_tag_description;
+
     public function __construct()
     {
         $baseController = new BaseController();
         $this->activations = $baseController->activations;
         $this->slug_activations = $baseController->slug_activations;
+        $this->xml_tag_name = 'name' . get_option( 'mrkv_uamrkpl_rozetka_xml_tags_lang' );
+        $this->xml_tag_description = 'description' . get_option( 'mrkv_uamrkpl_rozetka_xml_tags_lang' );
     }
 
     // Set <offer> xml-tag
