@@ -253,9 +253,9 @@ class XMLController extends BaseController {
         }
 
         // Create XML-file
-        header('Clear-Site-Data: "cache"');
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Content-Type: application/xml; charset=utf-8");
+        // header('Clear-Site-Data: "cache"');
+        // header("Cache-Control: no-cache, must-revalidate");
+        // header("Content-Type: application/xml; charset=utf-8");
         clearstatcache();
 
         // Save the output to a variable

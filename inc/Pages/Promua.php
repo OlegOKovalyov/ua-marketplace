@@ -93,6 +93,14 @@ class Promua extends BaseController
 	public function setFields()
 	{
 		$args = array(
+			// Store ('Магазин')
+			array(
+				'id' => 'mrkv_uamrkpl_promua_store',
+				'title' => '<h3 style="margin:0;font-weight:500;font-style:italic;">Магазин</h3>',
+				'callback' => function () {},
+				'page' => 'mrkv_ua_marketplaces_promua',
+				'section' => 'mrkvuamp_promua_section',
+			),
 			array(
 				'id'		=> 'mrkv_uamrkpl_promua_shop_name',
 				'title'		=> __( 'Назва магазину', 'mrkv-ua-marketplaces' ),
@@ -114,6 +122,14 @@ class Promua extends BaseController
 					'label_for' => 'mrkv_uamrkpl_promua_company',
 					'class'		=> 'mrkv_uamrkpl_class',
 				)
+			),
+			// Product ('Товар')
+			array(
+				'id' => 'mrkv_uamrkpl_promua_product',
+				'title' => '<h3 style="margin:0;font-weight:500;font-style:italic;">Товар</h3>',
+				'callback' => function () {},
+				'page' => 'mrkv_ua_marketplaces_promua',
+				'section' => 'mrkvuamp_promua_section',
 			),
 			array(
 				'id'		=> 'mrkv_uamrkpl_promua_global_vendor',
