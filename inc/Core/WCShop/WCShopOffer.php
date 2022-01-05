@@ -78,15 +78,13 @@ class WCShopOffer extends WCShopController {
     }
 
     // Get product description for <description> xml-tag
-    public function get_product_description($id)
+    public function get_product_description($id, $variation_id=null)
     {
         $this->_product = \wc_get_product( $id ); // Get product object from collation list
         $description = $this->_product->get_description();
-        foreach ( $this->slug_activations as $slug  ) {
-            // Description from '{Marketplace} Description' custom field
-            $mrktplc_description = get_post_meta( $id , "mrkvuamp_{$slug}_description", true );
-            if (  ! empty( $mrktplc_description ) ) $description = $mrktplc_description;
-        }
+        // Description from 'Rozetka Description' custom field
+        $mrktplc_description = get_post_meta( $id , "mrkvuamp_rozetka_description", true );
+        if (  ! empty( $mrktplc_description ) ) $description = $mrktplc_description;
         return $description;
     }
 
@@ -184,8 +182,14 @@ class WCShopOffer extends WCShopController {
         }
         // Get all product categories
         $product_category_ids = $this->_product->get_category_ids();
-        // Get first available category
-        return $product_category_ids[0];
+        // Get user collated categories
+        $wc_collation_categories_ids = $this->get_wc_collation_categories_ids();
+
+        foreach ( $product_category_ids as $key => $value ) {
+            if ( in_array( $value, $wc_collation_categories_ids ) ) {
+                return $value;
+            }
+        }
     }
 
     // Get marketplace category id for <categoryId> xml-tag (old function)

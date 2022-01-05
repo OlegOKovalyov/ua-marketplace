@@ -50,7 +50,10 @@ class WCShopPromuaOffer extends WCShopPromuaController {
         }
 
         if ( 'variable' == $this->product_type ) {
-            $wcShopOfferVariable->set_variable_offer( $id, $offers );
+            $variations_ids = $this->_product->get_children();
+            foreach ( $variations_ids as $variation_id ) { // Variations loop
+                $wcShopOfferVariable->set_variable_offer( $id, $offers, $variation_id );
+            }
         }
     }
 
@@ -136,15 +139,13 @@ class WCShopPromuaOffer extends WCShopPromuaController {
     }
 
     // Get product description for <description> xml-tag
-    public function get_product_description($id)
+    public function get_product_description($id, $variation_id=null)
     {
-        $this->_product = \wc_get_product( $id ); // Get product object from collation list
+        $this->_product = \wc_get_product( $id ); // Get product object from WooCommerce internet shop
         $description = $this->_product->get_description();
-        foreach ( $this->slug_activations as $slug  ) {
-            // Description from '{Marketplace} Description' custom field
-            $mrktplc_description = get_post_meta( $id , "mrkvuamp_{$slug}_description", true );
-            if (  ! empty( $mrktplc_description ) ) $description = $mrktplc_description;
-        }
+        //     // Description from 'PromUA Description' custom field
+        //     $mrktplc_description = get_post_meta( $id , "mrkvuamp_promua_description", true );
+        //     if (  ! empty( $mrktplc_description ) ) $description = $mrktplc_description;
         return $description;
     }
 

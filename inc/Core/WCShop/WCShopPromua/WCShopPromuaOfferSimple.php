@@ -10,6 +10,8 @@ use \Inc\Core\WCShop\WCShopPromua\WCShopPromuaOffer;
 
 class WCShopPromuaOfferSimple extends WCShopPromuaOffer {
 
+    public $offer;
+
     public function set_simple_offer($id, $offers)
     {
         // Checkbox '{Marketplace} xml' custom field
@@ -18,7 +20,8 @@ class WCShopPromuaOfferSimple extends WCShopPromuaOffer {
             if ( $mrktplc_not_xml ) return;
         }
 
-        $offer = $this->set_offer_content( $id, $offers ); // XML tag <offer>
+        $this->offer = $this->set_offer_content( $id, $offers ); // XML tag <offer>
+        $offer = $this->offer;
 
             $url = $this->set_url( $id, $offer ); // XML tag <url>
 
@@ -34,11 +37,11 @@ class WCShopPromuaOfferSimple extends WCShopPromuaOffer {
 
             $vendor = $this->set_vendor( $id, $offer ); // XML tag <vendor>
 
-            $description = $this->set_description( $id, $offer ); // XML tag <description>
+            $description = $this->set_description( $id, $offer, $variation_id=null ); // XML tag <description>
 
             $param = $this->set_param( $id, $offer ); // XML tag <param>
 
-            $stock_quantity = $this->set_stock_quantity($id, $offer, $offers); // XML tag <stock_quantity>
+            $stock_quantity = $this->set_available($id, $offer, $offers); // XML tag <available>
     }
 
     public function set_offer_content($id, $offers) // XML tag <offer>
@@ -85,7 +88,7 @@ class WCShopPromuaOfferSimple extends WCShopPromuaOffer {
 
     public function set_name($id, $offer) // XML tag <name>
     {
-        return $offer->addChild( 'name', $this->get_product_title( $id ) );
+        return $offer->addChild( 'name', \esc_html( $this->get_product_title( $id ) ) );
     }
 
     public function set_vendor($id, $offer) // XML tag <vendor>
@@ -94,9 +97,9 @@ class WCShopPromuaOfferSimple extends WCShopPromuaOffer {
         return $offer->addChild( 'vendor', $vendor_name );
     }
 
-    public function set_description($id, $offer) // XML tag <description>
+    public function set_description($id, $offer, $variation_id) // XML tag <description>
     {
-        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description( $id ) ) );
+        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description( $id, $variation_id ) ) );
     }
 
     public function set_param($id, $offer) // XML tag <param>
@@ -120,7 +123,7 @@ class WCShopPromuaOfferSimple extends WCShopPromuaOffer {
         }
     }
 
-    public function set_stock_quantity($id, $offer, $offers) // XML tag <available>
+    public function set_available($id, $offer, $offers) // XML tag <available>
     {
         $stock_status = $this->_product->get_stock_status();
         if ( 'instock' == $stock_status ) {

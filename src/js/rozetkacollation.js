@@ -16,14 +16,10 @@ jQuery(document).ready(function(){
             async function collateAndCreateXml() {
                 var $form = jQuery( '#mrkv_uamrkpl_collation_form' );
                 var $formData = $form.serialize();
-                try {
                     let a = await collateCategories($form, $formData);
                     let b = await SweetAlert2Resolve();
                     let c = await showSpinner();
                     let cc = await removeHiddenLink();
-                } catch(err) {
-                    let d = await SweetAlert2Reject(err);
-                }
             }
 
             // Collate WC categories with marketplace categories
@@ -50,6 +46,7 @@ jQuery(document).ready(function(){
                     data: $formData,
                     cache: false,
                     ifModified: true,
+                    timeout: 60000000
                 }); // jQuery.ajax
 
                 ajaxCollationRequest.done(function(response) { // AJAX success!
@@ -62,7 +59,10 @@ jQuery(document).ready(function(){
 
                 ajaxCollationRequest.fail(function(jqXHR, textStatus) { // AJAX error
                     jQuery('.mrkvuamp_progress_bar').fadeOut();
-                    SweetAlert2Reject("Request failed: " + textStatus);
+                    var errMsg = jQuery(jqXHR.responseText); // Get response text html from AJAX request
+                    // Get text from <title> html element of response if it exists
+                    var errTitle = (typeof(errMsg.html() != "undefined" && errMsg.html() !== null)) ? ("<p>" + errMsg.html() + "</p>") : "";
+                    SweetAlert2Reject(textStatus, jqXHR.responseText + errTitle);
                     hideSpinner();
                 });
             } // async function collateCategories($form, $formData)
@@ -111,12 +111,15 @@ jQuery(document).ready(function(){
             }
 
             // Sweetalert2 error modal
-            async function SweetAlert2Reject(err) {
+            async function SweetAlert2Reject(status,msg) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Oops...',
-                    text: err,
-                    timer: 5000
+                    title: 'Rozetka xml: Oops...',
+                    text: "Request failed: " + status, // If text and html parameters are provided in the same time, html will be used.
+                    html: msg,
+                    footer: '<div style="font-size:smaller;"><span style="font-style:italic;">Скріншот або текст помилки надішліть: </span><a href="">support@morkva.co.ua</a></div>',
+                    showConfirmButton: false,
+                    allowOutsideClick: true
                 })
             }
 

@@ -15,23 +15,18 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
 
     public $product_type;
 
-    public function set_variable_offer($id, $offers)
+    public $offer;
+
+    public function set_variable_offer($id, $offers, $variation_id)
     {
 
-        $this->_product = \wc_get_product( $id ); // Get variation product object
-        $this->product_type = $this->_product->get_type();
-        $variation_permalink = $this->_product->get_permalink();
-
-        $variations_ids = $this->_product->get_children();
-
-        // Variations loop
-        foreach ( $variations_ids as $variation_id ) {
-
             $this->variation = wc_get_product( $variation_id ); // Get variation object
+            $variation_permalink = $this->variation->get_permalink();
 
             $variation_attrs = $this->variation->get_attributes(); // Get variation attributes
 
-            $offer = $this->set_offer_content( $id, $offers, $variation_id ); // XML tag <offer>
+            $this->offer = $this->set_offer_content( $id, $offers, $variation_id ); // XML tag <offer>
+            $offer = $this->offer;
 
                 $url = $this->set_url( $id, $offer, $variation_permalink, $variation_attrs ); // XML tag <url>
 
@@ -51,8 +46,7 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
 
                 $param = $this->set_param( $id, $offer ); // XML tag <param>
 
-                $stock_quantity = $this->set_stock_quantity($id, $offer, $offers); // XML tag <stock_quantity>
-        }
+                $stock_quantity = $this->set_available($id, $offer, $offers); // XML tag <available>
     }
 
     public function set_offer_content($id, $offers, $variation_id) // XML tag <offer>
@@ -168,7 +162,7 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
 
     public function set_description($id, $offer, $variation_id) // XML tag <description>
     {
-        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description( $id ) ) );
+        return $offer->addChildWithCDATA( 'description', nl2br( $this->get_product_description( $id, $variation_id ) ) );
     }
 
     public function set_param($id, $offer) // XML tag <param>
@@ -199,7 +193,7 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
         }
     }
 
-    public function set_stock_quantity($id, $offer, $offers) // XML tag <available>
+    public function set_available($id, $offer, $offers) // XML tag <available>
     {
         $stock_status = $this->variation->get_stock_status();
         if ( 'instock' == $stock_status ) {

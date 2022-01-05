@@ -81,7 +81,7 @@ $site_total_product_qty = $xml->site_total_product_qty;
 
             <div class="mrkvuamp_promua_progress_bar hidden"><?php // PromUA xml-file processing progress bar ?>
                 <form action="">
-                    <progress id="mrkvuamp-progress-xml-upload-promua" max="<?php echo \round( $site_total_product_qty * $progBarCoefPromua ); ?>" value="0" style="width: 37%;"></progress>
+                    <progress id="mrkvuamp-progress-xml-upload-promua" max="<?php echo \round( $site_total_product_qty * $progBarCoefPromua ); ?>" value="0" style="width:37%;height:5px;"></progress>
                     <div class="hidden" id="mrkvuamp_progbar_hidden_msg" style="padding-left: 10px;"></div>
                     <input type="hidden" name="mrkvuamp_site_total_product_qty" value="<?php echo sanitize_text_field( $site_total_product_qty ); ?>" />
                 </form>

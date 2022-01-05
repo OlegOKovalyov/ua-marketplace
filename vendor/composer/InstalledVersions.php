@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '98b71a427631dc2248e93270ff4dc273fdb48bc8',
+    'reference' => '31b0fb64bc47bf8b54711feab84e2620242470f1',
     'name' => 'olegkovalyov/morkva-ua-marketplace-two',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '98b71a427631dc2248e93270ff4dc273fdb48bc8',
+      'reference' => '31b0fb64bc47bf8b54711feab84e2620242470f1',
     ),
   ),
 );

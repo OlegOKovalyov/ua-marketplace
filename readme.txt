@@ -3,7 +3,7 @@ Contributors: bandido, olegkovalyov
 Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
 Tested up to: 5.8
-Stable tag: 1.3.15
+Stable tag: 1.3.23
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,9 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.3.23 =
+* [fix] змінений алгоритм формування xml-тегу categoryId: id шукається серед співставлених категорій
 
 = 1.3.15 =
 * [new] створено Автооновлення xml-прайсу (CRON) для PromUA

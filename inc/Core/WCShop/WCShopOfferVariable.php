@@ -142,7 +142,7 @@ class WCShopOfferVariable extends WCShopOffer {
 
     public function set_description($id, $offer, $variation_id, $xml_tag) // XML tag <description>
     {
-        return $offer->addChildWithCDATA( $xml_tag, nl2br( $this->get_product_description( $id ) ) );
+        return $offer->addChildWithCDATA( $xml_tag, nl2br( $this->get_product_description( $id, $variation_id ) ) );
     }
 
     public function set_param($id, $offer) // XML tag <param>
