@@ -98,6 +98,14 @@ class Rozetka extends BaseController
 	public function setFields()
 	{
 		$args = array(
+			// Store ('Магазин')
+			array(
+				'id' => 'mrkv_uamrkpl_rozetka_store',
+				'title' => '<h3 style="margin:0;font-weight:500;font-style:italic;">Магазин</h3>',
+				'callback' => function () {},
+				'page' => 'mrkv_ua_marketplaces_rozetka',
+				'section' => 'mrkvuamp_rozetka_section',
+			),
 			array(
 				'id'		=> 'mrkv_uamrkpl_rozetka_shop_name',
 				'title'		=> __( 'Назва магазину', 'mrkv-ua-marketplaces' ),
@@ -122,7 +130,7 @@ class Rozetka extends BaseController
 			),
 			array(
 				'id'		=> 'mrkv_uamrkpl_rozetka_xml_tags_lang',
-				'title'		=> __( 'Мова xml-тегів прайсу', 'mrkv-ua-marketplaces' ),
+				'title'		=> __( 'Мова xml-тегів прайсу <span style="font-weight:400;font-style:italic;">(deprecated)</span>', 'mrkv-ua-marketplaces' ),
 				'callback'	=> array( $this->callbacks_rozetka, 'setRozetkaXmlTagsLang' ),
 				'page'		=> 'mrkv_ua_marketplaces_rozetka',
 				'section'	=> 'mrkvuamp_rozetka_section',
@@ -130,6 +138,14 @@ class Rozetka extends BaseController
 					'label_for' => 'mrkv_uamrkpl_rozetka_xml_tags_lang',
 					'class'		=> 'mrkv_uamrkpl_rozetka_xml_tags_lang_class',
 				)
+			),
+			// Product ('Товар')
+			array(
+				'id' => 'mrkv_uamrkpl_rozetka_product',
+				'title' => '<h3 style="margin:0;font-weight:500;font-style:italic;">Товар</h3>',
+				'callback' => function () {},
+				'page' => 'mrkv_ua_marketplaces_rozetka',
+				'section' => 'mrkvuamp_rozetka_section',
 			),
 			array(
 				'id'		=> 'mrkv_uamrkpl_rozetka_global_vendor',
