@@ -30,6 +30,7 @@ final class Init
 			// Addons
 			Base\AjaxHandler::class,
 			Base\WPCRONHandler::class,
+			Core\Offer::class,
 
 			Core\WCShop\EditProduct\ExtraProductSettings::class,
 			Core\WCShop\EditProduct\ExtraVariationSettings::class,
@@ -45,6 +46,7 @@ final class Init
 			// Core\XMLController::class, // Прибрав, тому що є параметр у класа
 
 			// PromUA
+			Core\OfferPromua::class,
 			Core\WCShopPromuaController::class,
 			Core\WCShop\WCShopPromua\WCShopPromuaOffer::class,
 			Core\WCShop\WCShopPromua\WCShopPromuaOfferSimple::class,

@@ -80,7 +80,21 @@ class AjaxHandler extends BaseController
 
         // Create XML-price for marketplace PromUA
         $converter = new \Inc\Core\XMLController( 'promua' );
-        $xml = $converter->array2promuaxml( $mrkv_uamrkpl_shop_arr );
+
+        if ( ! get_option( 'mrkv_uamrkpl_promua_background_proc_xml_chk' ) ) {
+            $xml = $converter->array2promuaxml( $mrkv_uamrkpl_shop_arr, null ); // Async
+        } else {
+            if ( \get_option( 'mrkv_uamrkpl_promua_background_proc_xml_chk' ) ) {
+                if ( \is_file( $converter->plugin_uploads_dir_path . '/promua_status.json' ) ) {
+                    if ( ! \unlink( $converter->plugin_uploads_dir_path . '/promua_status.json' ) ) {
+                        // \error_log( "promua_status.json cannot be deleted due to an error" );
+                    } else {
+                        // \error_log( "promua_status.json has been deleted" );
+                    }
+                }
+            }
+            $xml = $converter->array2promuaxmlpartly( $mrkv_uamrkpl_shop_arr ); // Background
+        }
 
         $phpEnd = microtime(true);
         $execution_php_time = number_format($phpEnd - $phpStart, 2);

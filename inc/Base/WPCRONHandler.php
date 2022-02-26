@@ -8,6 +8,7 @@ namespace Inc\Base;
 
 use \Inc\Base\BaseController;
 use \Inc\Core\WCShop\WCShopCollation;
+use \Inc\Core\XMLController;
 use \Inc\Core\WCShopPromuaController;
 
 class WPCRONHandler extends BaseController
@@ -43,7 +44,7 @@ class WPCRONHandler extends BaseController
                 }
 
                 if ( 'promua' == $marketplace ) {
-                    $baseController = new BaseController( $marketplace );
+                    $baseController = new BaseController();
                     // Create xml-file name for active PromUA marketplace
                     $xml_name_key = 'plugin_uploads_' . $marketplace . '_xmlname';
                     $xml_fileurl = $baseController->plugin_uploads_dir_url . $baseController->$xml_name_key;
@@ -52,6 +53,16 @@ class WPCRONHandler extends BaseController
                     if ( file_exists( $baseController->plugin_uploads_dir_path . $baseController->$xml_name_key ) ) {
                         add_action( 'admin_head', array( $this, 'activate_xml_update_promua' ) );
                         add_action( 'mrkvuamp_update_xml_hook_promua', array( $this, 'update_xml_exec_promua' ) );
+                    }
+
+                    if (
+                        get_option( 'mrkv_uamrkpl_promua_background_proc_xml_chk' ) &&
+                        is_file( $baseController->plugin_uploads_dir_path . '/promua_status.json' ) &&
+                        is_file( $baseController->plugin_uploads_dir_path . 'tmp_' . $baseController->plugin_uploads_promua_xmlname )
+                     ) {
+                        add_filter( 'cron_schedules', array( $this, 'add_one_minute_cron_interval' ) ); // For partial create xml
+                        add_action( 'admin_head', array( $this, 'activate_partial_xml_update_promua' ) );
+                        add_action( 'mrkvuamp_partial_update_xml_hook_promua', array( $this, 'update_xml_exec_promua_partly' ) );
                     }
                 }
             }
@@ -78,7 +89,14 @@ class WPCRONHandler extends BaseController
         exit;
     }
 
-    public function activate_xml_update_promua()
+    public function activate_partial_xml_update_promua() // Short (every minute) CRON-task for PromUA-xml generation
+    {
+        if ( ! wp_next_scheduled( 'mrkvuamp_partial_update_xml_hook_promua' ) ) {
+            wp_schedule_event( time(), 'mrkvuamp_one_minute', 'mrkvuamp_partial_update_xml_hook_promua' );
+        }
+    }
+
+    public function activate_xml_update_promua() // Long (daily, twicedaily, hourly) CRON-task for PromUA-xml generation
     {
         if ( ! wp_next_scheduled( 'mrkvuamp_update_xml_hook_promua' ) ) {
             wp_clear_scheduled_hook( 'mrkvuamp_update_xml_hook_promua' );
@@ -94,7 +112,32 @@ class WPCRONHandler extends BaseController
 
         // Create XML-price for marketplace PromUA
         $converter = new \Inc\Core\XMLController( 'promua' );
-        $xml = $converter->array2promuaxml( $mrkv_uamrkpl_shop_arr );
+        if ( ! get_option( 'mrkv_uamrkpl_promua_background_proc_xml_chk' ) ) {
+            $xml = $converter->array2promuaxml( $mrkv_uamrkpl_shop_arr, null ); // Async
+        } else {
+            if ( \get_option( 'mrkv_uamrkpl_promua_background_proc_xml_chk' ) ) {
+                if ( \is_file( $converter->plugin_uploads_dir_path . '/promua_status.json' ) ) {
+                    if ( ! \unlink( $converter->plugin_uploads_dir_path . '/promua_status.json' ) ) {
+                        \error_log( "promua_status.json cannot be deleted due to an error" );
+                    } else {
+                        \error_log( "promua_status.json has been deleted" );
+                    }
+                }
+            }
+            $xml = $converter->array2promuaxmlpartly( $mrkv_uamrkpl_shop_arr ); // Background
+        }
+        exit;
+    }
+
+    public function update_xml_exec_promua_partly()
+    {
+        // Create WooCommerce internet-shop Object for PromUA
+        $mrkv_uamrkpl_shop = new \Inc\Core\WCShopPromuaController('shop');
+        $mrkv_uamrkpl_shop_arr = (array) $mrkv_uamrkpl_shop;
+
+        // Create XML-price for marketplace PromUA in background mode
+        $converter = new \Inc\Core\XMLController( 'promua' );
+        $xml = $converter->array2promuaxmlpartly( $mrkv_uamrkpl_shop_arr );
         exit;
     }
 
@@ -104,5 +147,12 @@ class WPCRONHandler extends BaseController
     //         'display'  => esc_html__( 'Every Five Minutes' ), );
     //     return $schedules;
     // }
+
+    public function add_one_minute_cron_interval( $schedules ) { // For create xml partly
+        $schedules['mrkvuamp_one_minute'] = array(
+            'interval' => 60,
+            'display'  => esc_html__( 'Every One Minute', 'mrkv-ua-marketplaces' ), );
+        return $schedules;
+    }
 
 }

@@ -28,7 +28,7 @@ require_once( 'dashboard-header.php' );
                             : $xml->xml_promua_filepath;
                     ?>
                     <?php if ( file_exists( $xml_filepath ) ) : // Last xml-file link ?>
-                        <a class="mrkvuamp_xml_link" target="_blank" href="<?php echo esc_url( $xml_fileurl ); clearstatcache(); ?>">останній згенерований xml</a>
+                        <a class="mrkvuamp_xml_link" target="_blank" href="<?php echo esc_url( $xml_fileurl ); /*clearstatcache();*/ ?>">останній згенерований xml</a>
                         <div><?php ( 'Rozetka' == $marketplace) ? $xml->last_xml_file_date() : $xml->last_promuaxml_file_date(); ?></div>
                         <span class="mrkvuamp_xml_link_copy button">Скопіювати</span>
                     <?php else : ?>

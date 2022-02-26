@@ -7,6 +7,7 @@ namespace Inc\Core;
 
 use \Inc\Base\BaseController;
 use \Inc\Core\WCShopController;
+use \Inc\Core\OfferPromua;
 use \Inc\Core\WCShopPromuaController;
 use \Inc\Core\WCShop\WCShopOffer;
 use \Inc\Core\WCShop\WCShopPromua\WCShopPromuaOffer;
@@ -35,6 +36,9 @@ class XMLController extends BaseController {
     public $plugin_uploads_dir_url;
 
     public $site_total_product_qty;
+
+    public $promua_offer_product;
+    public $promua_offer_variation;
 
     public function __construct($marketplace)
     {
@@ -124,9 +128,9 @@ class XMLController extends BaseController {
         }
 
         // Create XML-file
-        header('Clear-Site-Data: "cache"');
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Content-Type: application/xml; charset=utf-8");
+        // header('Clear-Site-Data: "cache"');
+        // header("Cache-Control: no-cache, must-revalidate");
+        // header("Content-Type: application/xml; charset=utf-8");
         clearstatcache();
 
         // Save the output to a variable
@@ -271,6 +275,199 @@ class XMLController extends BaseController {
         fclose( $handle );
 
         return $xml->asXML( $this->xml_promua_filepath );
+    }
+
+    public function array2promuaxmlpartly()
+    {
+        $wcShopPromuaController = new WCShopPromuaController();
+        $wcShopPromuaOfferPro = new WCShopPromuaOffer();
+        $offerPromua = new OfferPromua();
+
+        $promua_temp_xmlname = 'tmp_' . $this->plugin_uploads_promua_xmlname;
+        $promua_temp_xmlpath = $this->plugin_uploads_dir_path . $promua_temp_xmlname;
+        $promua_status_json = $this->plugin_uploads_dir_path . '/promua_status.json';
+
+        $categories = $wcShopPromuaController->categories[0];
+        $interval = DAY_IN_SECONDS;
+        $limit = get_option( 'mrkv_uamrkpl_promua_background_proc_xml_step', 200 );
+        $count_offers = count( $wcShopPromuaController->offers );
+
+        $cats_slugs = array();
+        if ( is_file( $this->plugin_uploads_dir_path . '/promua_status.json' ) ) {
+            $status = json_decode( file_get_contents( $promua_status_json ), true);
+        } else {
+            $status = array(
+                'date'  => 0,
+                'total' => 0,
+                'step'  => 0
+            );
+        }
+
+        if ( $status['total'] == $status['step'] && $status['date'] + $interval < time() ) {
+            error_log('Крок 0 - створюємо тимчасовий xml-файл (total == step && date + interval < time())');
+
+            // XML Header
+            $xml = '<?xml version="1.0" encoding="UTF-8"?>
+<yml_catalog date="' . date('Y-m-d H:i') . '">
+    <shop>
+        <name>' . $wcShopPromuaController->name . '</name>
+        <company>' . $wcShopPromuaController->company . '</company>
+        <url>' . $wcShopPromuaController->url . '</url>
+        <currencies>
+            <currency id="' . $wcShopPromuaController->currencies[0] . '" rate="1"/>
+        </currencies>';
+
+            $xml .= '<categories>' . PHP_EOL;
+            foreach ( $categories as $key => $value) {
+                $xml .= '<category id="' . $value .
+                    '" parentId="' . $wcShopPromuaController->get_parent_category_id( $value ) .
+                    '">' . $wcShopPromuaController->get_promua_category_name_by_id( $value ) . '</category>' . PHP_EOL;
+            }
+            $xml .= '</categories>' . PHP_EOL;
+            $xml .= '<offers>' . PHP_EOL;
+
+            file_put_contents( $promua_temp_xmlpath, $xml );
+
+            $status = array(
+                'date'  => time(),
+                'total' => ceil( $count_offers / $limit ),
+                'step'  => 0
+            );
+            file_put_contents( $this->plugin_uploads_dir_path . '/promua_status.json', json_encode( $status ) );
+
+            error_log( 'Крок ' . $status['step'] . ' з ' . $status['total'] . ' - виконаний.' );
+
+        } elseif ( $status['total'] != $status['step'] ) {
+            $status_step = intval( $status['step'] ) + 1;
+            error_log('Виконання наступних кроків. Крок ' . $status_step . '. (total != step)' );
+            $start = $status['step'] * $limit;
+            $xml = isset( $xml ) ? $xml : '';
+
+            $ids = $wcShopPromuaController->get_wc_offers_ids(); // Get all products ids
+
+            // Xml Offer
+            for ( $i = $start; $i < ( $status['step'] + 1 ) * $limit; $i++ ) {
+                if ( $i == $count_offers ) break;
+
+                $offer_product = \wc_get_product( $ids[$i] );
+                $this->promua_offer_product = $offer_product;
+                if ( is_object( $offer_product ) ) {
+
+                    $offer_product_type = is_object( $offer_product ) ? $offer_product->get_type() : '';
+
+                    if ( ! \shortcode_exists( 'mrkv_promua_description' ) ) {
+                        \add_shortcode( 'mrkv_promua_description', array( $this, 'promua_description_shortcode_func' ) );
+                    }
+                    if ( ! \shortcode_exists( 'mrkv_promua_short_description' ) ) {
+                        \add_shortcode( 'mrkv_promua_short_description', array( $this, 'promua_short_description_shortcode_func' ) );
+                    }
+
+                    // Simple product
+                    if ( 'simple' == $offer_product_type ) {
+                        $xml .= '
+        <offer id="' . $ids[$i] . '" available="' . $offerPromua->is_available( $ids[$i], $offer_product ) . '">
+            <url>' . htmlspecialchars( get_permalink( $offer_product->get_id() ) ) . '</url>
+            <price>' . $offerPromua->set_price( $offer_product ) . '</price>
+            <currencyId>' . $wcShopPromuaController->currencies[0] . '</currencyId>
+            <categoryId>' . $offerPromua->set_category_id( $offer_product) . '</categoryId>'
+            . $offerPromua->set_picture( $offer_product ) .
+            '<name>' . htmlspecialchars( $offer_product->get_name() ) . '</name>
+            <vendor>' . $offerPromua->set_vendor( $offer_product) . '</vendor>
+            <description><![CDATA[' . $offerPromua->set_description( $offer_product) . ']]></description>' . PHP_EOL .
+            $offerPromua->set_param( $offer_product ) . PHP_EOL .
+            '<available>' . $offerPromua->set_available( $offer_product ) . '</available>
+            <vendorCode>' . $offerPromua->set_vendorCode( $offer_product ) . '</vendorCode>
+        </offer>';
+                    }
+
+                    // Variable product
+                    if ( 'variable' == $offer_product_type ) {
+                        if ( ! \shortcode_exists( 'mrkv_promua_variation_description' ) ) {
+                            \add_shortcode( 'mrkv_promua_variation_description', array( $this, 'promua_variation_description_shortcode_func' ) );
+                        }
+                        $variations_ids = $offer_product->get_children();
+                        if ( is_array( $variations_ids ) ) {
+                            foreach ( $variations_ids as $variation_id ) { // Variations loop
+                                $offer_variation = \wc_get_product( $variation_id );
+                                $this->promua_offer_variation = $offer_variation;
+                                $xml .= '
+        <offer group_id="' . $ids[$i] . '" id="' . $variation_id . '" available="' . $offerPromua->is_available( $variation_id, $offer_variation ) . '">
+            <url>' . htmlspecialchars( get_permalink( $offer_variation->get_id() ) ) . '</url>
+            <price>' . $offerPromua->set_price( $offer_variation ) . '</price>
+            <currencyId>' . $wcShopPromuaController->currencies[0] . '</currencyId>
+            <categoryId>' . $offerPromua->set_category_id( $offer_product ) . '</categoryId>'
+            . $offerPromua->set_picture( $offer_variation ) .
+            '<name>' . htmlspecialchars( $offer_variation->get_name() ) . '</name>
+            <vendor>' . $offerPromua->set_vendor( $offer_product ) . '</vendor>
+            <description><![CDATA[' . $offerPromua->set_description( $offer_variation) . ']]></description>' . PHP_EOL .
+            $offerPromua->set_param( $offer_product ) . PHP_EOL .
+            '<available>' . $offerPromua->set_available( $offer_variation ) . '</available>
+            <vendorCode>' . $offerPromua->set_vendorCode( $offer_variation ) . '</vendorCode>
+        </offer>';
+                            }
+                        }
+                    }
+
+                } // if ( is_object( $offer_product ) )
+
+                else {
+                    continue;
+                }
+
+            }
+
+            // Update data in promua_status.json
+            $status['step']++;
+            file_put_contents( $this->plugin_uploads_dir_path . '/promua_status.json', json_encode( $status ) );
+
+            if ( $status['total'] == $status['step'] ) { // If the last step, xml-tags must be closed
+                $xml .= '</offers></shop></yml_catalog>';
+            }
+
+            $fp = fopen( $promua_temp_xmlpath, 'a'); // Save xml-price in temporary xml-file
+            if ( false !== $fp ) {
+                fwrite( $fp, PHP_EOL . $xml );
+                fclose( $fp );
+            }
+
+            // Если последний шаг, то ZIP-архивация
+            // if ( $status['total'] == $status['step'] ) {
+            //     $zip = new ZipArchive();
+            //     $zip->open(__DIR__ . '/market.zip', ZipArchive::CREATE|ZipArchive::OVERWRITE);
+            //     $zip->addFile(__DIR__ . '/market.xml', 'market.xml');
+            //     $zip->close();
+            // }
+
+            error_log( 'Крок ' . $status['step'] . ' з ' . $status['total'] . ' - виконаний.' );
+        } else {
+            // Xml-file is ready
+            if ( is_file( $promua_temp_xmlpath ) ) {
+                copy( $promua_temp_xmlpath, $this->xml_promua_filepath );
+                unlink( $promua_temp_xmlpath );
+            } else {
+                error_log( 'Не вдалось скопіювати:\\n' .  $promua_temp_xmlpath . ' в\\n' . $this->xml_promua_filepath );
+                error_log( 'Тимчасовий файл відсутній');
+            }
+            error_log( 'XML-файл для PromUA сформований, наступне оновлення ' . date('d.m.Y H:s', $status['date'] + $interval) . ' UTC' );
+        }
+    }
+
+    public function promua_description_shortcode_func($content)
+    {
+        $content .= $this->promua_offer_product->get_description();
+        return $content;
+    }
+
+    public function promua_short_description_shortcode_func($content)
+    {
+        $content .= $this->promua_offer_product->get_short_description();
+        return $content;
+    }
+
+    public function promua_variation_description_shortcode_func($content)
+    {
+        $content .= $this->promua_offer_variation->get_description();
+        return $content;
     }
 
 }

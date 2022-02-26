@@ -148,4 +148,21 @@ class PromuaCallbacks extends BaseController
         echo '</form>';
     }
 
+    public function getCheckboxBackgroundProcessXml() // Фоновий режим xml - activation checkbox
+    {
+        $checked = esc_attr( get_option( 'mrkv_uamrkpl_promua_background_proc_xml_chk' ) );
+        echo '<input type="checkbox" class="regular-text" id="mrkv_uamrkpl_promua_background_proc_xml_chk"
+            name="mrkv_uamrkpl_promua_background_proc_xml_chk" value="1" ' . checked( $checked, true, false ) . ' >';
+        echo '<p class="mrkv-font-italic">' . __( 'Корисно для сайтів з великою кількістю товарів. Автооновлення xml щогодини не доступне.', 'mrkv-ua-marketplaces' );
+        echo '</p>';
+    }
+
+    public function getBackgroundProductStepQuantity() // Кількість товарів за прохід - getting from input text field
+    {
+        $value = esc_attr( get_option( 'mrkv_uamrkpl_promua_background_proc_xml_step', 200 ) );
+        echo '<input style="max-width:100px;" type="text" class="regular-text" id="mrkv_uamrkpl_promua_background_proc_xml_step"
+        name="mrkv_uamrkpl_promua_background_proc_xml_step" value="'. $value .'" placeholder="">';
+        echo '<p class="mrkv-font-italic">Кількість товарів за один прохід в фоновому режимі створення xml.</p>';
+    }
+
 }

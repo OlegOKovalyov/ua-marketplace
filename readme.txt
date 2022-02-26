@@ -2,8 +2,8 @@
 Contributors: bandido, olegkovalyov
 Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
-Tested up to: 5.8
-Stable tag: 1.3.24
+Tested up to: 5.9
+Stable tag: 1.4.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,11 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.4.2 =
+* [new] додана можливість генерації xml у фоновому режимі для PromUA; фоновий режим xml треба застосовувати, коли звичайний режим повертає помилку таймауту або браку пам'яті.
+* [new] xml тег sku змінений на vendorCode для PromUA
+* [new] додана підтримка Polylang при генерації xml у фоновому режимі для PromUA
 
 = 1.3.24 =
 * [new] додані розділи на вкладку налаштувань для Rozetka

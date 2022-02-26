@@ -49,42 +49,68 @@ class WCShopPromuaController {
 
     }
 
-    public function get_wc_offers_ids()
-    {
-        $cats_slugs = array();
-        foreach ( $this->categories as $category ) {
-            if ( $term = get_term_by( 'id', $category, 'product_cat' ) ) {
-                $cats_slugs[] = $term->slug;
+    public function get_wc_offers_ids() // Get the site all product ids by current language
+    { 
+        // $offer_ids = get_transient( 'promua_offer_ids_full' );
+        // if ( false === $offer_ids || empty( $offer_ids ) ) {
+
+            $cats_slugs = array();
+            foreach ( $this->categories as $category ) {
+                if ( $term = \get_term_by( 'id', $category, 'product_cat' ) ) {
+                    $cats_slugs[] = $term->slug;
+                }
             }
-        }
 
-        // Get wc-site all products
-        $args = array(
-            'limit' => -1,
-            'status' => array( 'publish' ),
-            'category' => $cats_slugs
-        );
-        $products = \wc_get_products( $args );
+            // Get wc-site all products
+            $lang = ( \get_locale() ?? \get_bloginfo('language') ) ?? 'uk';           
+            $args = array(
+                'limit' => -1,
+                // 'limit' => 5000,
+                'paginate' => true,
+                'page' => 1,
+                'status' => array( 'publish' ),
+                'category' => $cats_slugs,
+                'lang' => $lang,
+                'return' => 'ids',
+            );
 
-        foreach ( $products as $product ) {
-            $offer_ids[] = $product->get_id();
-        }
-
-        return $offer_ids;
+            $offer_ids = \wc_get_products( $args );
+            // set_transient( 'promua_offer_ids_full', $offer_ids, DAY_IN_SECONDS );
+        // }
+        return $offer_ids->products;
     }
 
-    public function get_wc_promua_categories_ids()
+    public function get_wc_promua_categories_ids() // Get the site all product categories ids by current language
     {
-        $categories_ids = array();
-        $args = array(
-            'taxonomy'   => "product_cat",
-            'orderby'    => 'id',
-            'hide_empty' => false,
-        );
-        $product_categories = get_terms($args);
-        foreach( $product_categories as $category ){
-            $categories_ids[] = $category->term_id;
-        }
+        // $categories_ids = get_transient( 'mrkv_promua_categories_ids' );
+        // if ( false === $categories_ids || empty( $categories_ids ) ) {
+            $categories_ids = array();
+            $pll = false;
+            if ( \function_exists('pll_get_term') ) $pll = true; // If Polylang is active
+            $lang = ( \get_locale() ?? \get_bloginfo('language') ) ?? 'uk';
+            $args = array(
+                'taxonomy'   => "product_cat",
+                'orderby'    => 'id',
+                'hide_empty' => true,
+            );
+            $product_categories = \get_terms($args);
+            foreach( $product_categories as $category ) {
+                $cat_term = $category->term_id;
+                $cat_ids[] = $cat_term;
+            }
+            foreach ( $cat_ids as $cat_id ) {
+                if ( $pll ) {
+                    if ( $lang == pll_get_term_language( $cat_id ) ) {
+                        if ( ! empty( \pll_get_term( $cat_id, $lang ) ) ) {
+                            $categories_ids[] = \pll_get_term( $cat_id, $lang );
+                        }
+                    }
+                } else {
+                    $categories_ids[] = $cat_id;
+                }
+            }
+            // set_transient( 'mrkv_promua_categories_ids', $categories_ids, DAY_IN_SECONDS );
+        // }
         return $categories_ids;
     }
 
@@ -100,7 +126,7 @@ class WCShopPromuaController {
             'orderby'    => 'id',
             'hide_empty' => false,
         );
-        $product_categories = get_terms($args);
+        $product_categories = \get_terms($args);
         foreach( $product_categories as $category ) {
             if ( $id == $category->term_id ) {
                 return $category->parent;

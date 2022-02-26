@@ -51,7 +51,8 @@ function scripts() {
 		'src/js/rozetkasettings.js',
 		'src/js/rozetkacollation.js', // Пользовательские скрипты, использующие библиотеку, должны быть подключены в конце
 		'src/js/promua.js',
-		'src/js/promuasettings.js'
+		'src/js/promuasettings.js',
+		'src/js/promua-functions.js'
 		])
 	.pipe(concat('mrkvmpscript.min.js')) // Конкатенируем в один файл
 	.pipe(uglify({

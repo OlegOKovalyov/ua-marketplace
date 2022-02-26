@@ -70,7 +70,17 @@ class Promua extends BaseController
 					'option_group'	=> 'mrkv_ua_promua_option_group',
 					'option_name'	=> 'mrkv_uamrkpl_promua_vendor_all_possibilities', // Метадані в якості брендів
 					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
-				)
+				),
+				array(
+					'option_group'	=> 'mrkv_ua_promua_option_group',
+					'option_name'	=> 'mrkv_uamrkpl_promua_background_proc_xml_chk', // Фоновий режим xml
+					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
+				),
+				array(
+					'option_group'	=> 'mrkv_ua_promua_option_group',
+					'option_name'	=> 'mrkv_uamrkpl_promua_background_proc_xml_step', // Кількість товарів за прохід
+					'callback'		=> array( $this->callbacks_promua, 'optionGroup' )
+				),
 			);
 
 		$this->settings->setSettings( $args );
@@ -174,7 +184,37 @@ class Promua extends BaseController
 					'label_for' => 'mrkv_uamrkpl_promua_vendor_all_possibilities',
 					'class'		=> 'mrkv_uamrkpl_promua_vendor_all_possibilities_class',
 				)
-			)
+			),
+			// Other ('Інше')
+			array(
+				'id' => 'mrkv_uamrkpl_promua_other',
+				'title' => '<h3 style="margin:0;font-weight:500;font-style:italic;">Інше</h3>',
+				'callback' => function () {},
+				'page' => 'mrkv_ua_marketplaces_promua',
+				'section' => 'mrkvuamp_promua_section',
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_promua_background_proc_xml_chk',
+				'title'		=> __( 'Фоновий режим xml', 'mrkv-ua-marketplaces' ),
+				'callback'	=> array( $this->callbacks_promua, 'getCheckboxBackgroundProcessXml' ),
+				'page'		=> 'mrkv_ua_marketplaces_promua',
+				'section'	=> 'mrkvuamp_promua_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_promua_background_proc_xml_chk',
+					'class'		=> 'mrkv_uamrkpl_class',
+				)
+			),
+			array(
+				'id'		=> 'mrkv_uamrkpl_promua_background_proc_xml_step', // Кількість товарів за прохід
+				'title'		=> '',
+				'callback'	=> array( $this->callbacks_promua, 'getBackgroundProductStepQuantity' ),
+				'page'		=> 'mrkv_ua_marketplaces_promua',
+				'section'	=> 'mrkvuamp_promua_section',
+				'args'		=> array(
+					'label_for' => 'mrkv_uamrkpl_promua_background_proc_xml_step',
+					'class'		=> 'mrkv_uamrkpl_promua_background_proc_xml_step_class hidden',
+				)
+			),
 		);
 
 		$this->settings->setFields( $args );

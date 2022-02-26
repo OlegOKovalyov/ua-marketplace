@@ -5,7 +5,7 @@ if (location.search.indexOf('page=mrkv_ua_marketplaces_rozetka') !== -1) { // On
         // Show/hide link's content on Rozetka's tab: 'Загальні налаштування', 'Співставлення категорій', 'Мої замовлення'
         var mrkvRozetkaNavLinks = document.querySelectorAll("ul.mrkvuamp-nav-links > li");
 
-    	for (i = 0; i < mrkvRozetkaNavLinks.length; i++) {
+    	for (let i = 0; i < mrkvRozetkaNavLinks.length; i++) {
     		mrkvRozetkaNavLinks[i].addEventListener("click", mrkvSwitchLink);
     	}
 
