@@ -2,9 +2,9 @@
 Contributors: bandido, olegkovalyov
 Tags: woocommerce, розетка, rozetka, ecommerce, xml
 Requires at least: 5.0
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 7.0
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,11 @@ https://youtu.be/CYhov5nuET4
 
 
 == Що нового? ==
+
+= 1.4.4 =
+* [new] доданий xml-тег quantity_in_stock для PromUA
+* [fix] змінений алгоритм заповнення xml-тегу available для PromUA
+Перевірена сумісність з WooCommerce 6.9 i WordPress 6.0
 
 = 1.4.3 =
 * [dev] оновлений freemius sdk до v2.4.3

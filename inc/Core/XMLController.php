@@ -376,6 +376,7 @@ class XMLController extends BaseController {
             <description><![CDATA[' . $offerPromua->set_description( $offer_product) . ']]></description>' . PHP_EOL .
             $offerPromua->set_param( $offer_product ) . PHP_EOL .
             '<available>' . $offerPromua->set_available( $offer_product ) . '</available>
+            <quantity_in_stock>' . $offerPromua->set_quantity_in_stock( $offer_product ) . '</quantity_in_stock>
             <vendorCode>' . $offerPromua->set_vendorCode( $offer_product ) . '</vendorCode>
         </offer>';
                     }
@@ -402,6 +403,7 @@ class XMLController extends BaseController {
             <description><![CDATA[' . $offerPromua->set_description( $offer_variation) . ']]></description>' . PHP_EOL .
             $offerPromua->set_param( $offer_product ) . PHP_EOL .
             '<available>' . $offerPromua->set_available( $offer_variation ) . '</available>
+            <quantity_in_stock>' . $offerPromua->set_quantity_in_stock( $offer_variation ) . '</quantity_in_stock>
             <vendorCode>' . $offerPromua->set_vendorCode( $offer_variation ) . '</vendorCode>
         </offer>';
                             }

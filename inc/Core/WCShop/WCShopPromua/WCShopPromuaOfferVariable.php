@@ -47,6 +47,8 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
                 $param = $this->set_param( $id, $offer ); // XML tag <param>
 
                 $stock_quantity = $this->set_available($id, $offer, $offers); // XML tag <available>
+
+                $stock_quantity = $this->set_quantity_in_stock( $id, $offer ); // XML tag <quantity_in_stock>
     }
 
     public function set_offer_content($id, $offers, $variation_id) // XML tag <offer>
@@ -193,20 +195,35 @@ class WCShopPromuaOfferVariable extends WCShopPromuaOffer {
         }
     }
 
-    public function set_available($id, $offer, $offers) // XML tag <available>
+    public function set_available($id, $offer) // XML tag <available>
     {
         $stock_status = $this->variation->get_stock_status();
-        if ( 'instock' == $stock_status ) {
+        if ( 'instock' == $stock_status || 'onbackorder' == $stock_status ) {
             $availability = 'true';
         }
         if ( 'outofstock' == $stock_status ) {
-            $availability = ' ';
-        }
-        if ( 'onbackorder' == $stock_status ) {
             $availability = 'false';
         }
 
         return $offer->addChild( 'available', $availability );
+    }
+
+    public function set_quantity_in_stock($id, $offer) // XML tag <quantity_in_stock>
+    {
+        $is_in_stock = $this->variation->is_in_stock();
+        $is_on_backorder = $this->variation->is_on_backorder();
+        $stock_quantity = $this->variation->get_stock_quantity() ?: 0;
+        $is_manage_stock = $this->variation->get_manage_stock();
+
+        if ( ! $is_manage_stock && ( $is_in_stock || $is_on_backorder ) ) {
+            return $offer->addChild( 'quantity_in_stock', 1 );
+        }
+
+        if ( ! $is_manage_stock && ! $stock_quantity ) {  // outofstock
+            return $offer->addChild( 'quantity_in_stock', 0 );
+        }
+
+        return $offer->addChild( 'quantity_in_stock', $stock_quantity );
     }
 
 }
